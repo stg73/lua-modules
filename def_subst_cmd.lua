@@ -16,7 +16,7 @@ local function su(opts,tbl_tbl,bool)
 end
 
 -- 楽に定義するための関数
-function M.def_subst_cmd(name,tbl,bool)
+function M.create(name,tbl,bool)
     vim.api.nvim_create_user_command(name,function(opts)
         local x = vim.fn.getreg("/")
         su(opts,tbl,bool)
