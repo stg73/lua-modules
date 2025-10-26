@@ -1,12 +1,5 @@
 local M = {}
 
---[[
-luaのパターンは貧弱 vimの正規表現はエスケープする必要がある
-バックスラッシュの代わりにスラッシュを使ってvimの正規表現が使える
-
-既定でvery magic
-]]
-
 -- スラッシュを使った正規表現をvimの正規表現に変更
 function M.convert(str)
     local backslash_as_literal = string.gsub(string.gsub(str,[[/\]],[[\]]),[[\]],[[\\]]) -- バックスラッシュをリテラルとして扱う

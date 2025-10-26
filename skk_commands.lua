@@ -15,19 +15,8 @@ end
 function M.annotate(opts)
     if vim.b.skk_bunnrui then
         local current_search = vim.fn.getreg('/')
-        vim.cmd(opts.line1 .. ',' .. opts.line2 .. [[substitute/\v(\/[^/;]*\S)@<=\/@=/;[]] .. vim.b.skk_bunnrui .. ']/e' .. g())
-        vim.fn.setreg('/',current_search)
-        vim.cmd.nohlsearch()
-    end
-end
-
--- 上より高性能だが速度のことは分からない
-function M.aNnotate(opts)
-    if vim.b.skk_bunnrui then
-        local current_search = vim.fn.getreg('/')
-        local s = opts.line1 .. ',' .. opts.line2 .. "substitute/\\v"
         local e = "/e" .. g()
-        vim.cmd(s .. [[(\/[^;]+)@<=\/@=/;]] .. e .. " | " .. s .. [[;@<=(\[]] .. vim.b.skk_bunnrui .. [[\])@!/\[]] .. vim.b.skk_bunnrui .. "\\]" .. e)
+        vim.cmd(opts.line1 .. ',' .. opts.line2 .. "global/\\v^(;; )@!/" .. [[substitute/\v(\/[^;]+)@<=\/@=/;]] .. e .. [[ | substitute/\v;@<=(\[]] .. vim.b.skk_bunnrui .. [[\])@!/\[]] .. vim.b.skk_bunnrui .. "\\]" .. e)
         vim.fn.setreg('/',current_search)
         vim.cmd.nohlsearch()
     end

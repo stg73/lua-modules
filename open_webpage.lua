@@ -1,5 +1,3 @@
--- ウェブページを開く
-
 local M = {}
 
 local str = require("string_utils")
