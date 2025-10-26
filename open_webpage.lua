@@ -28,7 +28,7 @@ function M.open_webpage(url)
     vim.notify("accessing",vim.log.levels.INFO)
     M.access_webpage(url)
     vim.fn.feedkeys(":","nx") -- メーセージをクリア
-    vim.bo.filetype = vim.filetype.match({filename = str.get.path_of_url(url) or ""}) or "html"
+    vim.bo.filetype = vim.filetype.match({ filename = str.get.path_of_url(url) or "", buf = 0 }) or "html"
 end
 
 return M
