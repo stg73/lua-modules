@@ -100,6 +100,10 @@ function M.split(delimiter)
     return M.gmatch("[^" .. delimiter .. "]+")
 end
 
+function M.concat(delimiter) return function(str1) return function(str2)
+    return M.gsub(delimiter)("[^" .. delimiter .. "]@<=$")(str1) .. M.remove("^" .. delimiter)(str2)
+end end end
+
 --[[
 string.gsubのvim.regex版
 
