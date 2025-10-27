@@ -13,6 +13,13 @@ def_subst_cmd.lua
         s.create("Katakana",c.Hiragana_Katakana)
         s.create_reverse("Hiragana",c.Hiragana_Katakana)
 
+open_github.lua
+    githubからファイルをダウンロードしてneovimで閲覧する open_webpageのラッパー
+    使い方の例
+        require("open_github").open_tbl({ repo = "stg73/lua-modules", commit = "main", file = "readme.txt" })
+    もしくは
+        require("open_github").open("stg73/lua-modules")("main")("readme.txt")
+
 open_webpage.lua
     ウェブページをダウンロードしてneovimで閲覧する ファイルタイプをセットする
     powershellが必要
