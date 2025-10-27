@@ -23,7 +23,7 @@ open_github.lua
 open_webpage.lua
     ウェブページをダウンロードしてneovimで閲覧する ファイルタイプをセットする
     powershellが必要
-    使い方の例
+    ":edit"でウェブページを開くには
         vim.api.nvim_create_autocmd('BufReadCmd',{
             pattern = {'https://*','http://*'},
             callback = function(opts)
@@ -32,18 +32,19 @@ open_webpage.lua
             end
         })
 
-
 regex.lua
     vimの正規表現を使って文字列を操作する
     バックスラッシュの代わりにスラッシュを使う
 
 romaji.lua
     ローマ字と仮名のパターンを提供する
+    ローマ字を平仮名に変換する関数
+        require("regex").gsub(tbl.fn(require("character_table").Romaji_Hiragana))(require("romaji").romaji)
 
 skk_commands.lua
     SKKを編集するためのコマンド
     正確には "vim.api.nvim_create_user_command"の2番目の引数として与える関数を提供する
-    使い方の例
+    任意の範囲に分類注釈を追加するコマンド
         vim.api.nvim_create_user_command("SkkAnnotate",require("skk_commands").annotate,{bar = true,range = "%"})
 
 skk.lua
