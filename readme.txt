@@ -28,7 +28,7 @@ open_webpage.lua
             pattern = {'https://*','http://*'},
             callback = function(opts)
                 vim.cmd.buffer("#") vim.cmd.bwipeout(opts.buf) -- ウィンドウを消さないようにバッファを削除
-                require("open_webpage").open_webpage(opts.match)
+                require("open_webpage").open(opts.match)
             end
         })
 

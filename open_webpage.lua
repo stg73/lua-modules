@@ -2,7 +2,7 @@ local M = {}
 
 local str = require("string_utils")
 
-function M.access_webpage(url)
+function M.access(url)
     local temp = vim.fn.tempname()
     local job = vim.system({
         "pwsh.exe", -- 問題 カレントディレクトリに"pwsh.exe"があるとそちらを実行してしまう
@@ -24,9 +24,9 @@ function M.access_webpage(url)
     end
 end
 
-function M.open_webpage(url)
+function M.open(url)
     vim.notify("accessing",vim.log.levels.INFO)
-    M.access_webpage(url)
+    M.access(url)
     vim.fn.feedkeys(":","nx") -- メーセージをクリア
     vim.bo.filetype = vim.filetype.match({ filename = str.get.path_of_url(url) or "", buf = 0 }) or "html"
 end
