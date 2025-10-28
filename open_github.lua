@@ -3,20 +3,43 @@ local M = {}
 local w = require("open_webpage")
 local r = require("regex")
 
-function M.open_tbl(tbl)
-    if r.is("/x+")(tbl.commit) then -- コミットIDであれば
-        w.open_webpage("https://github.com/" .. tbl.repo .. "/raw/" .. tbl.commit .. "/" .. tbl.file)
+local function hoge(str)
+    if r.is("/x+")(str) then
+        return str
     else
-        w.open_webpage("https://github.com/" .. tbl.repo .. "/raw/refs/heads/" .. tbl.commit .. "/" .. tbl.file)
+        return "refs/heads/" .. str
     end
 end
 
-function M.open(repo) return function(commit) return function(file)
-    if r.is("/x+")(commit) then -- コミットIDであれば
-        w.open_webpage("https://github.com/" .. repo .. "/raw/" .. commit .. "/" .. file)
-    else
-        w.open_webpage("https://github.com/" .. repo .. "/raw/refs/heads/" .. commit .. "/" .. file)
-    end
+M.get_url = {}
+
+function M.get_url.tbl(tbl)
+    return "github.com/" .. tbl.repo .. "/raw/" .. hoge(tbl.commit) .. "/" .. tbl.file
+end
+
+function M.get_url.str(repo) return function(commit) return function(file)
+    return "github.com/" .. repo .. "/raw/" .. hoge(commit) .. "/" .. file
 end end end
+
+function M.get_url.url(str)
+    local repo = r.gsub("/")("/.")(r.match("[^//]+")(str))
+    local commit = r.gsub("/")("/.")(r.match("//@<=[^//]+")(str))
+    local file = r.remove(".{-}//.{-}//")(str)
+    return M.get_url.str(repo)(commit)(file)
+end
+
+function M.open(str_or_tbl)
+    if type(str_or_tbl) == "table" then
+        w.open(M.get_url.tbl(str_or_tbl))
+    else
+        return function(commit) return function(file)
+            w.open(M.get_url.str(str_or_tbl)(commit)(file))
+        end end
+    end
+end
+
+function M.open_url(str)
+    w.open(M.get_url.url(str))
+end
 
 return M

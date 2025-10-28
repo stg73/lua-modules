@@ -9,7 +9,7 @@ function M.access(url)
         "-noprofile",
         "-command",
         "invoke-webrequest",
-        url,
+        "https://" .. url,
         "-outfile",
         temp
     },{}):wait()
