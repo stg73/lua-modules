@@ -4,6 +4,11 @@ character_table.lua
     平仮名と片仮名、半角と全角、など文字の対応を集めたもの
     例えば {{"あ","ア"},{"い","イ"}} のようなもの
 
+create_urlscheme.lua
+    URLスキームを作ってneovim内で使えるようにする
+    使い方
+        require("create_urlscheme").create("https",require("open_webpage").open)
+
 def_subst_cmd.lua
     character_tableを使って文字列を置換するコマンドを作る
     使い方の例
@@ -23,14 +28,8 @@ open_github.lua
 open_webpage.lua
     ウェブページをダウンロードしてneovimで閲覧する ファイルタイプをセットする
     powershellが必要
-    ":edit"でウェブページを開くには
-        vim.api.nvim_create_autocmd('BufReadCmd',{
-            pattern = {'https://*','http://*'},
-            callback = function(opts)
-                vim.cmd.buffer("#") vim.cmd.bwipeout(opts.buf) -- ウィンドウを消さないようにバッファを削除
-                require("open_webpage").open(opts.match)
-            end
-        })
+    ":edit https://example.com"のようにウェブページを開くには
+        require("create_urlscheme").create("https",require("open_webpage").open)
 
 regex.lua
     vimの正規表現を使って文字列を操作する
