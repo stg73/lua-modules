@@ -9,10 +9,10 @@ create_urlscheme.lua
     使い方
         require("create_urlscheme").create("https",require("open_webpage").open)
 
-def_subst_cmd.lua
+create_substitute_command.lua
     character_tableを使って文字列を置換するコマンドを作る
     使い方の例
-        local s = require("def_subst_cmd")
+        local s = require("create_substitute_command")
         local c = require("character_table")
 
         s.create("Katakana",c.Hiragana_Katakana)
