@@ -16,22 +16,22 @@ local function su(opts,tbl_tbl,bool)
 end
 
 -- 楽に定義するための関数
-function M.create(name,tbl)
+function M.create(name) return function(tbl)
     vim.api.nvim_create_user_command(name,function(opts)
         local x = vim.fn.getreg("/")
         su(opts,tbl,true)
         vim.fn.setreg("/",x)
         vim.cmd.nohlsearch()
     end,{range = true,bar = true})
-end
+end end
 
-function M.create_reverse(name,tbl)
+function M.create_reverse(name) return function(tbl)
     vim.api.nvim_create_user_command(name,function(opts)
         local x = vim.fn.getreg("/")
         su(opts,tbl,false)
         vim.fn.setreg("/",x)
         vim.cmd.nohlsearch()
     end,{range = true,bar = true})
-end
+end end
 
 return M

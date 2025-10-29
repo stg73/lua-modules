@@ -7,7 +7,7 @@ character_table.lua
 create_urlscheme.lua
     URLスキームを作ってneovim内で使えるようにする
     使い方
-        require("create_urlscheme").create("https",require("open_webpage").open)
+        require("create_urlscheme").create("https")(require("open_webpage").open)
 
 create_substitute_command.lua
     character_tableを使って文字列を置換するコマンドを作る
@@ -15,8 +15,8 @@ create_substitute_command.lua
         local s = require("create_substitute_command")
         local c = require("character_table")
 
-        s.create("Katakana",c.Hiragana_Katakana)
-        s.create_reverse("Hiragana",c.Hiragana_Katakana)
+        s.create("Katakana")(c.Hiragana_Katakana)
+        s.create_reverse("Hiragana")(c.Hiragana_Katakana)
 
 open_github.lua
     githubからファイルをダウンロードしてneovimで閲覧する open_webpageのラッパー
@@ -29,7 +29,7 @@ open_webpage.lua
     ウェブページをダウンロードしてneovimで閲覧する ファイルタイプをセットする
     powershellが必要
     ":edit https://example.com"のようにウェブページを開くには
-        require("create_urlscheme").create("https",require("open_webpage").open)
+        require("create_urlscheme").create("https")(require("open_webpage").open)
 
 regex.lua
     vimの正規表現を使って文字列を操作する

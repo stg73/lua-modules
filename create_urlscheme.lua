@@ -2,7 +2,7 @@ local M = {}
 
 local group = vim.api.nvim_create_augroup('create_urlscheme',{})
 
-function M.create(scheme,open)
+function M.create(scheme) return function(open)
     vim.api.nvim_create_autocmd("BufReadCmd",{
         group = group,
         pattern = scheme .. "://*",
@@ -11,6 +11,6 @@ function M.create(scheme,open)
             open(regex.remove("^.{-1,}:////")(opts.match))
         end
     })
-end
+end end
 
 return M
