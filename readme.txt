@@ -23,7 +23,7 @@ open_github.lua
     使い方の例
         require("open_github").open_tbl({ repo = "stg73/lua-modules", commit = "main", file = "readme.txt" })
     もしくは
-        require("open_github").open("stg73.lua-modules/main/readme.txt")
+        require("open_github").open("stg73/lua-modules/main/readme.txt")
 
 open_webpage.lua
     ウェブページをダウンロードしてneovimで閲覧する ファイルタイプをセットする

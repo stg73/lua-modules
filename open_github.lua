@@ -4,8 +4,8 @@ local w = require("open_webpage")
 local r = require("regex")
 
 local function hoge(str)
-    if r.is("/x+")(str) then
-        return str
+    if r.has("^\\")(str) then
+        return r.remove("^\\")(str)
     else
         return "refs/heads/" .. str
     end
@@ -18,10 +18,9 @@ function M.get_url.tbl(tbl)
 end
 
 function M.get_url.url(str)
-    local repo = r.gsub("/")("/.")(r.match("[^//]+")(str))
-    local commit = r.gsub("/")("/.")(r.match("//@<=[^//]+")(str))
-    local file = r.remove(".{-}//.{-}//")(str)
-    return "github.com/" .. repo .. "/raw/" .. hoge(commit) .. "/" .. file
+    local repo = r.match(".{-}//.{-}//")(str)
+    local x = r.remove("^.{-}//.{-}//")(str)
+    return "github.com/" .. repo .. "raw/" .. hoge(x)
 end
 
 function M.open(str_or_tbl)
