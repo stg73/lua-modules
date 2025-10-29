@@ -4,10 +4,12 @@ local w = require("open_webpage")
 local r = require("regex")
 
 local function hoge(str)
-    if r.has("^\\")(str) then
-        return r.remove("^\\")(str)
+    if r.has("^\\c")(str) then
+        return r.remove("^\\.")(str)
+    elseif r.has("^\\b")(str) then
+        return "refs/heads/" .. r.remove("^\\.")(str)
     else
-        return "refs/heads/" .. str
+        return "HEAD/" .. str
     end
 end
 
