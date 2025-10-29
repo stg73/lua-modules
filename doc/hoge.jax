@@ -1,0 +1,125 @@
+*hoge.jax*           Nvim
+                                                                *hoge*
+
+                             LUA REFERENCE MANUAL
+
+
+Type |gO| to see the table of contents.
+
+==============================================================================
+文字の対応                                           *lua-lib-character_table*
+
+平仮名と片仮名、半角と全角、など文字の対応を集めたもの
+例えば `{{"あ","ア"},{"い","イ"}}` のようなもの
+
+==============================================================================
+URLスキームを作る                                   *lua-lib-create_urlscheme*
+
+URLスキームを作ってneovim内で使えるようにする
+
+create_urlscheme.create({scheme})({fn})              *create_urlscheme.create*
+    {scheme} .. "://" で始まるバッファを開いたらそれ以降の文字列を{fn}に与え
+    そのバッファを削除する
+    例えば"https://*"でウェブページを閲覧するには
+>lua
+        create_urlscheme.create("https")(open_webpage.open)
+<
+    これをした後に以下を実行するとこのヘルプが表示される
+>vim
+    e https://github.com/stg73/lua-modules/raw/refs/heads/main/doc/hoge.jax
+<
+
+==============================================================================
+文字を置換するコマンド                     *lua-lib-create_substitute_command*
+
+create_substitute_command.create({cmdname})({tbl})
+    character_tableを使って文字列を置換するコマンドを作る
+    使い方の例
+>lua
+        local s = require("create_substitute_command")
+        local c = require("character_table")
+
+        s.create("Katakana")(c.Hiragana_Katakana)
+        s.create_reverse("Hiragana")(c.Hiragana_Katakana)
+<
+
+==============================================================================
+githubのファイルを閲覧                                   *lua-lib-open_github*
+
+githubからファイルをダウンロードしてneovimで閲覧する open_webpageのラッパー
+
+open_github.open_tbl({tbl})                             *open_github.open_tbl*
+    使い方の例
+>lua
+        open_github.open_tbl({
+            repo = "stg73/lua-modules",
+            commit = "main",
+            file = "readme.txt"
+        })
+<
+open_github.open({str})                                     *open_github.open*
+>lua
+        open_github.open("stg73/lua-modules/main/readme.txt")
+<
+
+==============================================================================
+ウェブページを閲覧する                                  *lua-lib-open_webpage*
+
+ウェブページをダウンロードしてneovimで閲覧する ファイルタイプをセットする
+powershellが必要
+
+open_webpage.lua
+    "https://"で始まるURLを開いたらウェブページを開くには
+        create_urlscheme.create("https")(open_webpage.open)
+
+==============================================================================
+hoge                                                           *lua-lib-regex*
+
+regex.lua
+    vimの正規表現を使って文字列を操作する
+    バックスラッシュの代わりにスラッシュを使う
+
+==============================================================================
+hoge                                                          *lua-lib-romaji*
+
+romaji.lua
+    ローマ字と仮名のパターンを提供する
+    ローマ字を平仮名に変換する関数
+>lua
+        regex.gsub(tbl.fn(character_table.Romaji_Hiragana))(romaji.romaji)
+<
+
+==============================================================================
+hoge                                                    *lua-lib-skk_commands*
+
+skk_commands.lua
+    SKKを編集するためのコマンド
+    `vim.api.nvim_create_user_command` の引数として与える関数を提供する
+    任意の範囲に分類注釈を追加するコマンド
+>lua
+        vim.api.nvim_create_user_command("SkkAnnotate",
+        skk_commands.annotate,
+        {bar = true,range = "%"})
+<
+
+==============================================================================
+hoge                                                             *lua-lib-skk*
+
+skk.lua
+    SKKを解析する
+    構文解析したり バッファからSKKを読み込んで変換をしたりする
+
+==============================================================================
+文字列を楽に扱う                                        *lua-lib-string_utils*
+
+string_utils.lua
+    文字列を操作するためのユーティリティ
+
+==============================================================================
+いろいろ                                                         *lua-lib-tbl*
+
+tbl.lua
+    テーブルという名前だが 雑多
+
+------------------------------------------------------------------------------
+ vim:tw=78:ts=8:sw=4:sts=4:et:ft=help:norl:
