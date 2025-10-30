@@ -1,5 +1,5 @@
-*hoge.jax*           Nvim
-                                                                *hoge*
+*lua-modules.jax*                    Nvim
+                                                                *lua-modules*
 
                              LUA REFERENCE MANUAL
 
@@ -7,9 +7,9 @@
 Type |gO| to see the table of contents.
 
 ==============================================================================
-文字の対応                                           *lua-lib-character_table*
+文字列と文字列の対応                                 *lua-lib-character_table*
 
-平仮名と片仮名、半角と全角、など文字の対応を集めたもの
+半角と全角、ローマ字と平仮名、など文字列の対応を集めたもの
 例えば `{{"あ","ア"},{"い","イ"}}` のようなもの
 
 ==============================================================================
@@ -17,23 +17,23 @@ URLスキームを作る                                   *lua-lib-create_urlsc
 
 URLスキームを作ってneovim内で使えるようにする
 
-create_urlscheme.create({scheme})({fn})              *create_urlscheme.create*
-    {scheme} .. "://" で始まるバッファを開いたらそれ以降の文字列を{fn}に与え
-    そのバッファを削除する
+create_urlscheme.create({scheme})({fn})            *create_urlscheme.create()*
+    {scheme} .. "://" で始まるバッファを開いたらそれ以降の文字列を {fn} に与え
+    そのバッファを削除するようなautocmdを作る
     例えば"https://*"でウェブページを閲覧するには
 >lua
         create_urlscheme.create("https")(open_webpage.open)
 <
-    これをした後に以下を実行するとこのヘルプが表示される
->vim
-    e https://github.com/stg73/lua-modules/raw/refs/heads/main/doc/hoge.jax
-<
+    上を実行後に `https://example.com` というバッファを開くと
+    https://example.com が閲覧できる
 
 ==============================================================================
-文字を置換するコマンド                     *lua-lib-create_substitute_command*
+文字を置換するコマンドを作る               *lua-lib-create_substitute_command*
 
 create_substitute_command.create({cmdname})({tbl})
-    character_tableを使って文字列を置換するコマンドを作る
+                                          *create_substitute_command.create()*
+
+    character_tableを使って文字列を置換するユーザコマンドを作る
     使い方の例
 >lua
         local s = require("create_substitute_command")
@@ -42,59 +42,92 @@ create_substitute_command.create({cmdname})({tbl})
         s.create("Katakana")(c.Hiragana_Katakana)
         s.create_reverse("Hiragana")(c.Hiragana_Katakana)
 <
+    上では指定した範囲の平仮名を片仮名にするコマンド"Katakana"と片仮名を平仮名にするコマ
+    ンド"Hiragana"を作っている
 
 ==============================================================================
 githubのファイルを閲覧                                   *lua-lib-open_github*
 
-githubからファイルをダウンロードしてneovimで閲覧する open_webpageのラッパー
+githubからファイルをダウンロードして閲覧する open_webpageのラッパー
 
-open_github.open_tbl({tbl})                             *open_github.open_tbl*
-    使い方の例
+open_github.get_url.tbl({tbl})                     *open_github.get_url.tbl()*
+    テーブルを渡す
 >lua
-        open_github.open_tbl({
+        open_github.get_url.tbl({
             repo = "stg73/lua-modules",
-            commit = "main",
+            branch = "main",
             file = "readme.txt"
         })
 <
-open_github.open({str})                                     *open_github.open*
+
+open_github.get_url.str({str})                     *open_github.get_url.url()*
+    URLっぽい文字列を渡す
 >lua
-        open_github.open("stg73/lua-modules/main/readme.txt")
+    open_github.get_url.str("stg73/lua-modules/\\bmain/readme.txt")
+<
+
+open_github.open({tbl_or_str})                            *open_github.open()*
+    引数がテーブルであれば `open_github.get_url.tbl` 文字列であれば
+    `open_github.get_url.url` に渡し 返り値を `open_webpage.open` に渡す
+>lua
+        create_urlscheme("github")(open_github.open)
+<
+    上を実行後に以下を実行するとこのヘルプが閲覧できる
+>vim
+        edit github://stg73/lua-modules/\bdev/vim-doc/doc/hoge.jax
 <
 
 ==============================================================================
 ウェブページを閲覧する                                  *lua-lib-open_webpage*
 
-ウェブページをダウンロードしてneovimで閲覧する ファイルタイプをセットする
+ウェブページをダウンロードしてneovimで閲覧する
 powershellが必要
 
-open_webpage.lua
-    "https://"で始まるURLを開いたらウェブページを開くには
-        create_urlscheme.create("https")(open_webpage.open)
+open_webpage.open({str})                                 *open_webpage.open()*
+    neovim内でページを閲覧する 引数にはURLの"https://"を除いた部分を与える
+    パスを元にファイルタイプをセットする
+    https://example.com を閲覧するには
+>lua
+        open_webpage.open("example.com")
+<
 
 ==============================================================================
-hoge                                                           *lua-lib-regex*
+正規表現                                                       *lua-lib-regex*
 
-regex.lua
-    vimの正規表現を使って文字列を操作する
-    バックスラッシュの代わりにスラッシュを使う
+vimの正規表現を使って文字列を操作する
+バックスラッシュの代わりにスラッシュを使う
+
+regex.gmatch({pattern})({str})                                *regex.gmatch()*
+    {str} を {pattern} にマッチする部分に分解したテーブルを返す
+
+regex.gsub({sub})({pattern})({str})                             *regex.gsub()*
 
 ==============================================================================
-hoge                                                          *lua-lib-romaji*
+ローマ字を扱う                                                *lua-lib-romaji*
 
-romaji.lua
-    ローマ字と仮名のパターンを提供する
-    ローマ字を平仮名に変換する関数
+ローマ字と仮名の `regex` で使うためのパターンを提供する
+
+romaji.romaji                                                  *romaji.romaji*
+    ローマ字のパターン 促音は";"
+
+    ローマ字を平仮名に変換する関数は
 >lua
         regex.gsub(tbl.fn(character_table.Romaji_Hiragana))(romaji.romaji)
 <
 
-==============================================================================
-hoge                                                    *lua-lib-skk_commands*
+romaji.romaji_rennzoku                                         *romaji.romaji*
+    ローマ字のパターン 促音は子音の連続 "tta" など
 
-skk_commands.lua
-    SKKを編集するためのコマンド
-    `vim.api.nvim_create_user_command` の引数として与える関数を提供する
+romaji.kana                                                    *romaji.romaji*
+    平仮名のパターン
+
+==============================================================================
+SKK辞書を編集するコマンド                                *lua-lib-skk_commands*
+
+SKKを編集するためのコマンド
+`vim.api.nvim_create_user_command` の引数として与える関数を提供する
+
+skk_commands.annotate({opts})                         *skk_commands.annotate()*
     任意の範囲に分類注釈を追加するコマンド
 >lua
         vim.api.nvim_create_user_command("SkkAnnotate",
@@ -103,23 +136,84 @@ skk_commands.lua
 <
 
 ==============================================================================
-hoge                                                             *lua-lib-skk*
+SKKを解析する                                                    *lua-lib-skk*
 
-skk.lua
-    SKKを解析する
-    構文解析したり バッファからSKKを読み込んで変換をしたりする
+構文解析したり バッファからSKKを読み込んで変換をしたりする
+
+skk.parse.line({str})                                       *skk.parse.line()*
+    一行のSKKを構文解析する
+
+skk.hennkann                                                    *skk.hennkann*
+    SKK辞書を使い文字列の変換をする
+
+skk.hennkann.fn.buf({buf})({midasi})                   *skk.hennkann.fn.buf()*
+    {buf} のバッファからSKKを読み込んで {midasi} を変換する
+    複数の候補のテーブルを返す
+
+skk.hennkann.fn.buf_reverse({buf})({kouho})    *skk.hennkann.fn.buf_reverse()*
+    {buf} のバッファからSKKを読み込んで {kouho} を変換する
+    一つの見出しの文字列を返す
 
 ==============================================================================
 文字列を楽に扱う                                        *lua-lib-string_utils*
 
-string_utils.lua
-    文字列を操作するためのユーティリティ
+文字列を操作するためのユーティリティ
+
+string_utils.get                                            *string_utils.get*
+文字列からなんらかの要素を取得する
+
+string_utils.get.original_name_of_backup_file({path})
+                             *string_utils.get.original_name_of_backup_file()*
+
+    拡張子を付け足すタイプのバックアップファイル名から元のファイル名を取得
+    "hoge.txt.hoge" -> "hoge.txt"
+    "hoge.txt.20251027T124207Z.hoge" -> "hoge.txt"
+
+string_utils.remove                                    *string_utils.remove()*
 
 ==============================================================================
 いろいろ                                                         *lua-lib-tbl*
 
-tbl.lua
-    テーブルという名前だが 雑多
+テーブルという名前だが 雑多
+
+tbl.compose({fn_tbl})                                          *tbl.compose()*
+    関数合成する
+
+tbl.curry2({fn})                                                *tbl.curry2()*
+    2変数関数をカリー化する
+>lua
+    tbl.curry2(table.concat)(tbl)(str) == table.concat(tbl,str)
+<
+
+tbl.curry3({fn})                                                *tbl.curry3()*
+    3変数関数をカリー化する
+
+tbl.curry4({fn})                                                *tbl.curry4()*
+    4変数関数をカリー化する
+
+tbl.filter({pre})({tbl})                                        *tbl.filter()*
+    {pre} を条件として {tbl} をフィルターする
+
+tbl.flip({fn})                                                    *tbl.flip()*
+
+tbl.fold({fn})({tbl})                                             *tbl.fold()*
+    fold
+
+tbl.get({key})({tbl})                                              *tbl.get()*
+>lua
+    tbl.get(x)(tbl) == tbl[x]
+<
+
+tbl.map({fn})({tbl})                                               *tbl.map()*
+    map
+
+tbl.map_reverse({fn_tbl})({x})                             *tbl.map_reverse()*
+>lua
+    tbl.map_reverse(tbl)(x) == tbl.map(function(fn) return fn(x) end)(tbl)
+<
+
+tbl.pipe({tbl})                                                   *tbl.pipe()*
+    シェルのパイプのように関数の返り値を繋いでいく
 
 ------------------------------------------------------------------------------
- vim:tw=78:ts=8:sw=4:sts=4:et:ft=help:norl:
+ vi:tw=78:ts=4:ft=help:norl:et

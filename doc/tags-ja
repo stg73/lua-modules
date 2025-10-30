@@ -19,9 +19,9 @@ open_github.open()	lua-modules.jax	/*open_github.open()*
 open_webpage.open()	lua-modules.jax	/*open_webpage.open()*
 regex.gmatch()	lua-modules.jax	/*regex.gmatch()*
 regex.gsub()	lua-modules.jax	/*regex.gsub()*
+romaji.kana	lua-modules.jax	/*romaji.kana*
 romaji.romaji	lua-modules.jax	/*romaji.romaji*
-romaji.romaji	lua-modules.jax	/*romaji.romaji*
-romaji.romaji	lua-modules.jax	/*romaji.romaji*
+romaji.romaji_rennzoku	lua-modules.jax	/*romaji.romaji_rennzoku*
 skk.hennkann	lua-modules.jax	/*skk.hennkann*
 skk.hennkann.fn.buf()	lua-modules.jax	/*skk.hennkann.fn.buf()*
 skk.hennkann.fn.buf_reverse()	lua-modules.jax	/*skk.hennkann.fn.buf_reverse()*
