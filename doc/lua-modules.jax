@@ -92,6 +92,57 @@ open_webpage.open({str})                                 *open_webpage.open()*
 <
 
 ==============================================================================
+パッケージマネージャー                               *lua-lib-package_manager*
+
+パッケージマネージャー
+
+package_manager.directory({dir})                 *package_manager.directory()*
+    パッケージを管理するディレクトリを設定する
+    以下を含むテーブルを返す
+
+add({name})                                *package_manager.directory().add()*
+    {name} のパッケージをruntimepathに追加する
+
+add_opt({opt})({name})                        *package_manager.directory().add_opt()*
+    {name} のパッケージを {opt} のタイミングでruntimepathに追加する
+    {opt} には以下が利用できる
+    event
+        そのイベントがトリガーされたとき
+    filetype
+        そのファイルタイプがセットされたとき
+    [nticvo]map
+        そのキーが押されたとき
+
+available_packages            *package_manager.directory().available_packages*
+    インストールされているパッケージ
+
+install({name})({pkg})                 *package_manager.directory().install()*
+    {name} という名前で {pkg} をインストールする
+    {name} が文字列でなれれば {pkg} から決定される
+
+install_table({pkgs})            *package_manager.directory().install_table()*
+    {pkg} を含むテーブルをとる
+    テーブルのキーが `M.install()` の {name} として使用される
+    例
+>lua
+    local p = package_manager.directory("/packages/directory")
+    p.install_table({
+        { repo = "stg73/lua-modules", branch = "main" },
+        hoge = { repo = "https://example.com/hoge.git", tag = "v0.0.1" },
+        fuga = "https://example.com/fuga.git",
+    })
+<
+
+is_installed({pkg})               *package_manager.directory().is_installed()*
+    {pkg} がインストールされているかを返す
+
+uninstall({name})                    *package_manager.directory().uninstall()*
+    {name} のパッケージをアンインストールする
+
+update({name})                          *package_manager.directory().update()*
+    {name} のパッケージをアップデートする
+
+==============================================================================
 正規表現                                                       *lua-lib-regex*
 
 vimの正規表現を使って文字列を操作する
@@ -221,8 +272,8 @@ tbl.pipe({tbl})                                                   *tbl.pipe()*
 `vim.keymap.get` に相当する関数を提供する
 
 vim_keymap_get.get({mode},{lhs})                        *vim_keymap_get.get()*
-{mode} における {lhs} のマッピングを取得                    *vim.keymap.get()*
-{mode} が空文字列の場合 すべてのモードのマッピングから一つ取得する
+    {mode} における {lhs} のマッピングを取得                    *vim.keymap.get()*
+    {mode} が空文字列の場合 すべてのモードのマッピングから一つ取得する
 >lua
     -- vim.keymap に機能を追加
     vim.keymap.get = require("vim_keymap_get").get
