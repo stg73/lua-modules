@@ -135,7 +135,14 @@ I.entry = regex.is("/S+ //.+//")
 G.bunnrui = tbl.map_filter(regex.match("(^/S+ .+;/[)@<=[^/]]+"))(I.entry)
 
 -- "skk-specialized"のシンタクスハイライトに使われている
-G.bunnrui_from_table = tbl.first_map_filter(G.bunnrui)(G.bunnrui)
+function G.bunnrui_from_table(exprs)
+    local bunnrui = tbl.match(G.bunnrui)(exprs)
+    if bunnrui then
+        return G.bunnrui(bunnrui)
+    else
+        return nil
+    end
+end
 
 I.userdict_entry = regex.is("/S+ //.+//(/[(.+//)+/]//)+$")
 

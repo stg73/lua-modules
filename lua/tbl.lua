@@ -65,22 +65,21 @@ function M.map_filter(fn) return function(pre) return function(arg)
     end
 end end end
 
--- テーブルの要素のうち最初に条件に合致したものに関数を適用する
--- 名前の由来 M.compose({ M.get(1), M.map(fn), M.filter(pre) })
-function M.first_map_filter(fn) return function(pre) return function(tbl)
+-- テーブルから条件に適合するものを検索する
+function M.match(pre) return function(tbl)
     local function f(i)
         local arg = tbl[i]
         if arg == nil then
             return nil
         elseif pre(arg) then
-            return fn(arg)
+            return arg
         else
             return f(i + 1)
         end
     end
 
     return f(1)
-end end end
+end end
 
 function M.map(fn) return function(arg_tbl)
     local t = {}
