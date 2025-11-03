@@ -84,7 +84,8 @@ end end
 function M.map(fn) return function(arg_tbl)
     local t = {}
     for i = 1, #arg_tbl do
-        table.insert(t,fn(arg_tbl[i]))
+        local retval = fn(arg_tbl[i])
+        table.insert(t,retval)
     end
 
     return t
