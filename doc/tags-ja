@@ -11,6 +11,7 @@ lua-lib-skk	lua-modules.jax	/*lua-lib-skk*
 lua-lib-skk_commands	lua-modules.jax	/*lua-lib-skk_commands*
 lua-lib-string_utils	lua-modules.jax	/*lua-lib-string_utils*
 lua-lib-tbl	lua-modules.jax	/*lua-lib-tbl*
+lua-lib-vim_keymap_get	lua-modules.jax	/*lua-lib-vim_keymap_get*
 lua-modules	lua-modules.jax	/*lua-modules*
 lua-modules.jax	lua-modules.jax	/*lua-modules.jax*
 open_github.get_url.tbl()	lua-modules.jax	/*open_github.get_url.tbl()*
@@ -41,3 +42,5 @@ tbl.get()	lua-modules.jax	/*tbl.get()*
 tbl.map()	lua-modules.jax	/*tbl.map()*
 tbl.map_reverse()	lua-modules.jax	/*tbl.map_reverse()*
 tbl.pipe()	lua-modules.jax	/*tbl.pipe()*
+vim.keymap.get()	lua-modules.jax	/*vim.keymap.get()*
+vim_keymap_get.get()	lua-modules.jax	/*vim_keymap_get.get()*

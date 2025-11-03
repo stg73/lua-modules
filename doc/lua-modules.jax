@@ -115,10 +115,10 @@ romaji.romaji                                                  *romaji.romaji*
         regex.gsub(tbl.fn(character_table.Romaji_Hiragana))(romaji.romaji)
 <
 
-romaji.romaji_rennzoku                                         *romaji.romaji*
+romaji.romaji_rennzoku                                *romaji.romaji_rennzoku*
     ローマ字のパターン 促音は子音の連続 "tta" など
 
-romaji.kana                                                    *romaji.romaji*
+romaji.kana                                                      *romaji.kana*
     平仮名のパターン
 
 ==============================================================================
@@ -214,6 +214,19 @@ tbl.map_reverse({fn_tbl})({x})                             *tbl.map_reverse()*
 
 tbl.pipe({tbl})                                                   *tbl.pipe()*
     シェルのパイプのように関数の返り値を繋いでいく
+
+==============================================================================
+マッピングを取得する                                  *lua-lib-vim_keymap_get*
+
+`vim.keymap.get` に相当する関数を提供する
+
+vim_keymap_get.get({mode},{lhs})                        *vim_keymap_get.get()*
+{mode} における {lhs} のマッピングを取得                    *vim.keymap.get()*
+{mode} が空文字列の場合 すべてのモードのマッピングから一つ取得する
+>lua
+    -- vim.keymap に機能を追加
+    vim.keymap.get = require("vim_keymap_get").get
+<
 
 ------------------------------------------------------------------------------
  vi:tw=78:ts=4:ft=help:norl:et
