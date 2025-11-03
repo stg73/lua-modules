@@ -91,6 +91,21 @@ function M.map(fn) return function(arg_tbl)
     return t
 end end
 
+function M.foreach(fn) return function(arg_tbl)
+    local keys = vim.tbl_keys(arg_tbl)
+    M.map(function(key)
+        fn(key)(arg_tbl[key])
+    end)(keys)
+end end
+
+function M.map_map(fn) return function(arg_tbl)
+    local t = {}
+    M.foreach(function(key) return function(val)
+        t[key] = fn(val)
+    end end)(arg_tbl)
+    return t
+end end
+
 -- M.mapの 関数と引数が逆
 function M.map_reverse(fn_tbl) return function(arg)
     local t = {}
