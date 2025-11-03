@@ -1,5 +1,6 @@
 local M = {}
 
+local regex = require("regex")
 local group = vim.api.nvim_create_augroup('create_urlscheme',{})
 
 function M.create(scheme) return function(open)
