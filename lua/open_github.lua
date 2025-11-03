@@ -8,6 +8,8 @@ local function hoge(str)
         return r.remove("^\\.")(str)
     elseif r.has("^\\b")(str) then
         return "refs/heads/" .. r.remove("^\\.")(str)
+    elseif r.has("^\\t")(str) then
+        return "refs/tags/" .. r.remove("^\\.")(str)
     else
         return "HEAD/" .. str
     end
