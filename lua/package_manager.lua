@@ -35,7 +35,7 @@ function M.directory(d)
 
         local pkg = (type(pkg) == "string") and { repo = pkg } or pkg
         pkg.repo = not r.has("^.+:////")(pkg.repo) and "https://github.com/" .. pkg.repo or pkg.repo -- スキームが無ければgithubを使う
-        local name = (type(name) == "string") and name or vim.fn.fnamemodify(pkg.repo,":t")
+        local name = (type(name) == "string") and name or vim.fs.basename(pkg.repo)
 
         if D.is_installed(pkg) then
             return
@@ -66,10 +66,11 @@ function M.directory(d)
 
     function D.uninstall(name)
         local pkg_path = dir .. "/" .. name
-        if vim.fn.isdirectory(pkg_path) ~= 0 then -- パッケージのディレクトリが存在したら
-            vim.system({ "pwsh","-command","remove-item","-recurse","-force",pkg_path },on_exit)
-        end
 
+        vim.fs.rm(pkg_path,{
+            recursive = true,
+            force = true
+        })
         D.available_packages[name] = nil
         local f = io.open(available_packages,"w")
         f:write(vim.json.encode(D.available_packages))
