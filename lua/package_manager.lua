@@ -56,7 +56,7 @@ function M.directory(d)
             hoge("--branch",pkg.branch or pkg.tag),
         },on_exit)
 
-        D.available_packages = vim.tbl_extend("force",D.available_packages,{ [name] = pkg }) -- パッケージの情報を更新
+        D.available_packages[name] = pkg
         local f = io.open(available_packages,"w")
         f:write(vim.json.encode(D.available_packages))
         f:close()
