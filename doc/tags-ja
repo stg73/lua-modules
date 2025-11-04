@@ -22,12 +22,13 @@ open_github.get_url.url()	lua-modules.jax	/*open_github.get_url.url()*
 open_github.open()	lua-modules.jax	/*open_github.open()*
 open_webpage.open()	lua-modules.jax	/*open_webpage.open()*
 package_manager.directory()	lua-modules.jax	/*package_manager.directory()*
-package_manager.directory().add()	lua-modules.jax	/*package_manager.directory().add()*
-package_manager.directory().add_opt()	lua-modules.jax	/*package_manager.directory().add_opt()*
 package_manager.directory().available_packages	lua-modules.jax	/*package_manager.directory().available_packages*
 package_manager.directory().install()	lua-modules.jax	/*package_manager.directory().install()*
 package_manager.directory().install_table()	lua-modules.jax	/*package_manager.directory().install_table()*
 package_manager.directory().is_installed()	lua-modules.jax	/*package_manager.directory().is_installed()*
+package_manager.directory().load()	lua-modules.jax	/*package_manager.directory().load()*
+package_manager.directory().load_opt()	lua-modules.jax	/*package_manager.directory().load_opt()*
+package_manager.directory().load_table()	lua-modules.jax	/*package_manager.directory().load_table()*
 package_manager.directory().uninstall()	lua-modules.jax	/*package_manager.directory().uninstall()*
 package_manager.directory().update()	lua-modules.jax	/*package_manager.directory().update()*
 regex.concat()	lua-modules.jax	/*regex.concat()*

@@ -15,13 +15,22 @@ function M.directory(d)
     D.available_packages = vim.json.decode(f:read("a"))
     f:close()
 
+    function D.same_package(pkg1) return function(pkg2)
+        local repo = pkg1.repo == pkg2.repo
+        if pkg1.branch then
+            return repo and pkg1.branch == pkg2.branch
+        elseif pkg1.tag then
+            return repo and pkg1.tag == pkg2.tag
+        else
+            return repo
+        end
+    end end
+
     function D.is_installed(pkg)
-        local function same_pkg(pkg1) return function(pkg2)
-            return pkg1.repo == pkg2.repo
-        end end
-        return t.match(same_pkg(pkg))(vim.tbl_values(D.available_packages)) and true or false
+        return t.match(D.same_package(pkg))(vim.tbl_values(D.available_packages))
     end
 
+    -- vim.system のエラー出力用
     local on_exit = vim.schedule_wrap(function(job)
         if job.code ~= 0 then
             error(str.remove.trailing_space(job.stderr))
@@ -34,7 +43,7 @@ function M.directory(d)
         end
 
         local pkg = (type(pkg) == "string") and { repo = pkg } or pkg
-        pkg.repo = not r.has("^.+:////")(pkg.repo) and "https://github.com/" .. pkg.repo or pkg.repo -- スキームが無ければgithubを使う
+        pkg.repo = not r.has("^.+:////")(pkg.repo) and "https://github.com/" .. pkg.repo or pkg.repo -- URLスキームが無ければgithubを使う
         local name = (type(name) == "string") and name or vim.fs.basename(pkg.repo)
 
         if D.is_installed(pkg) then
@@ -87,50 +96,87 @@ function M.directory(d)
         return name
     end
 
-    -- runtimepath に追加
-
-    function D.add(name)
+    -- runtimepathに追加 の上位互換
+    function D.load(name)
         vim.opt.runtimepath:append(dir .. "/" .. name)
+
+        if vim.v.vim_did_enter ~= 0 then
+            -- vimの代わりに plugin ディレクトリにあるファイルをソースする
+            local plugin = dir .. "/" .. name .. "/plugin"
+            local sourceable = r.is(".+/.(lua|vim)")
+            local files = vim.fs.find(sourceable,{ path = plugin, type = "file", limit = math.huge })
+            t.map(vim.cmd.source)(files)
+        end
     end
 
-    function D.add_opt(opt) return function(name)
-        local add = function() D.add(name) end
-        local function map_add(mode,map)
+    function D.is_loaded(name)
+        local path = r.gsub("////")("//")(dir .. "/" .. name)
+        return r.has("/V," .. path .. "/v(,|$)")(vim.o.runtimepath)
+    end
+
+    function D.load_opt(name) return function(opt)
+        -- 1回超過loadしないように
+        if D.is_loaded(name) then
+            return
+        end
+
+        if opt.setup then
+            opt.setup()
+        end
+
+        local function load()
+            D.load(name)
+            if opt.config then
+                opt.config()
+            end
+        end
+        -- 特定のキーが押されたらloadする
+        local function load_map(mode,map)
             vim.keymap.set(mode,map,function()
-                add()
-                vim.fn.feedkeys(map,"n")
                 vim.keymap.del(mode,map)
+                load()
+                local map = vim.api.nvim_replace_termcodes(map,true,false,true)
+                vim.fn.feedkeys(map)
             end)
         end
 
         if opt.event then
-            vim.api.nvim_create_autocmd(opt.event,{ callback = add })
+            vim.api.nvim_create_autocmd(opt.event,{
+                callback = load,
+                once = true,
+            })
         end
         if opt.filetype then
             vim.api.nvim_create_autocmd("FileType",{
                 pattern = opt.filetype,
-                callback = add,
+                callback = load,
+                once = true,
             })
         end
         if opt.nmap then
-            map_add("n",opt.nmap)
+            load_map("n",opt.nmap)
         end
         if opt.tmap then
-            map_add("n",opt.nmap)
+            load_map("n",opt.tmap)
         end
         if opt.vmap then
-            map_add("n",opt.nmap)
+            load_map("n",opt.vmap)
         end
         if opt.imap then
-            map_add("n",opt.nmap)
+            load_map("n",opt.imap)
         end
         if opt.omap then
-            map_add("n",opt.nmap)
+            load_map("n",opt.omap)
         end
         if opt.cmap then
-            map_add("n",opt.nmap)
+            load_map("n",opt.cmap)
+        end
+        if opt.now then
+            load()
         end
     end end
+
+    D.load_table = t.foreach(D.load_opt)
 
     return D
 end

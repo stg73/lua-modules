@@ -126,11 +126,11 @@ package_manager.directory({dir})                 *package_manager.directory()*
     パッケージを管理するディレクトリを設定する
     以下を含むテーブルを返す
 
-add({name})                                *package_manager.directory().add()*
-    {name} のパッケージを 'runtimepath' に追加する
+load({name})                              *package_manager.directory().load()*
+    {name} のパッケージを ロードする
 
-add_opt({opt})({name})                 *package_manager.directory().add_opt()*
-    {name} のパッケージを {opt} のタイミングで 'runtimepath' に追加する
+load_opt({opt})({name})               *package_manager.directory().load_opt()*
+    {name} のパッケージを {opt} のタイミングで ロードする
     {opt} には以下が利用できる
     event
         そのイベントがトリガーされたとき
@@ -138,6 +138,31 @@ add_opt({opt})({name})                 *package_manager.directory().add_opt()*
         そのファイルタイプがセットされたとき
     [nticvo]map
         そのキーが押されたとき
+    now
+        真の場合 すぐに読み込む
+
+    さらに {opt} には実行する関数を指定できる
+    setup
+        すぐに実行される
+    config
+        ロードされた後に実行される
+
+load_table({opts})                 *package_manager.directory().load_table()*
+    `load_opt()` の {opts} を含むテーブルをとる
+    テーブルのキーが `load_opt()` の {name} として使用される
+    例
+>lua
+    p = package_manager.directory("c:/users/user/package")
+    p.load_table({
+        ["vimdoc-ja"] = { event = "CmdLineEnter" },
+        ["jumpcursor.vim"] = {
+            nmap = "<Plug>(jumpcursor-jump)",
+            setup = function()
+                vim.keymap.set('n','<leader>j','<Plug>(jumpcursor-jump)')
+            end,
+        },
+    })
+<
 
 available_packages            *package_manager.directory().available_packages*
     インストールされているパッケージ
