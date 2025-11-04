@@ -1,17 +1,27 @@
 local M = {}
 
 local regex = require("regex")
-local group = vim.api.nvim_create_augroup('create_urlscheme',{})
+local t = require("tbl")
 
-function M.create(scheme) return function(open)
+function M.init()
     vim.api.nvim_create_autocmd("BufReadCmd",{
-        group = group,
-        pattern = scheme .. "://*",
+        group = vim.api.nvim_create_augroup('create_urlscheme',{}),
+        pattern = "*://*",
         callback = function(opts)
-            vim.cmd.buffer("#") vim.cmd.bwipeout(opts.buf) -- ウィンドウを消さないようにバッファを削除
-            open(regex.remove("^.{-1,}:////")(opts.match))
+            local scheme,rest = string.match(opts.match,"(.+)://(.+)")
+            if M.schemes[scheme] then -- スキームが定義されていたら
+                vim.cmd.buffer("#") vim.cmd.bwipeout(opts.buf) -- ウィンドウを消さずにバッファを削除
+                M.schemes[scheme](rest)
+            end
         end
     })
+end
+
+M.schemes = {} -- スキームと関数の対応を記録する
+local function add(scheme) return function(fn)
+    M.schemes[scheme] = fn
 end end
+
+M.add = t.foreach(add)
 
 return M
