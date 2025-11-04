@@ -11,7 +11,11 @@ end
 
 function M.get(mode,lhs)
     local mapping = t.match(function(t) return t.lhs == lhs end)(vim.api.nvim_get_keymap(mode))
-    return mapping.rhs or mapping.callback
+    if mapping then
+        return mapping.rhs or mapping.callback
+    else
+        return nil
+    end
 end
 
 return M
