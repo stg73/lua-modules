@@ -1,5 +1,7 @@
 create_substitute_command.create()	lua-modules.jax	/*create_substitute_command.create()*
-create_urlscheme.create()	lua-modules.jax	/*create_urlscheme.create()*
+create_urlscheme.add()	lua-modules.jax	/*create_urlscheme.add()*
+create_urlscheme.init()	lua-modules.jax	/*create_urlscheme.init()*
+create_urlscheme.schemes()	lua-modules.jax	/*create_urlscheme.schemes()*
 lua-lib-character_table	lua-modules.jax	/*lua-lib-character_table*
 lua-lib-create_substitute_command	lua-modules.jax	/*lua-lib-create_substitute_command*
 lua-lib-create_urlscheme	lua-modules.jax	/*lua-lib-create_urlscheme*

@@ -67,32 +67,39 @@ githubからファイルをダウンロードして閲覧する open_webpageの�
 
 open_github.get_url.tbl({tbl})                     *open_github.get_url.tbl()*
     テーブルを渡す
+    例
 >lua
         open_github.get_url.tbl({
             repo = "stg73/lua-modules",
-            branch = "main",
+            commit = "main",
             file = "readme.txt"
         })
 <
 
 open_github.get_url.str({str})                     *open_github.get_url.url()*
-    URLっぽい文字列を渡す
+    {str} はURLっぽい文字列
+    {str} のBNF
+>
+        <str> ::= <repo> "\" <commit> path | <repo> path
+        <repo> ::= user "/" repo "/"
+        <commit> ::= "b" branch | "c" commit | "t" tag
+<
+    ブランチ コミットID タグ が指定できる
+    例
+        "neovim/neovim/\bmaster/README.md"
+        "neovim/neovim/\tv0.11.5/README.md"
+        "neovim/neovim/\cb80d390/README.md"
+        "neovim/neovim/README.md"
 >lua
-    open_github.get_url.str("stg73/lua-modules/\\bmain/readme.txt")
+        open_github.get_url.url("stg73/lua-modules/\\bmain/readme.txt")
+        == "github.com/stg73/lua-modules/raw/refs/heads/main/readme.txt"
 <
 
 open_github.open({tbl_or_str})                            *open_github.open()*
     引数がテーブルであれば |open_github.get_url.tbl()| 文字列であれば
     |open_github.get_url.url()| に渡し 返り値を |open_webpage.open()| に渡す
 >lua
-        create_urlscheme.init()
-        create_urlscheme.add({
-            github = open_github.open,
-        })
-<
-    上を実行後に以下を実行するとこのヘルプが閲覧できる
->vim
-        edit github://stg73/lua-modules/doc/lua-modules.jax
+        open_github.open("stg73/lua-modules/doc/lua-modules.jax")
 <
 
 ==============================================================================
@@ -102,7 +109,8 @@ open_github.open({tbl_or_str})                            *open_github.open()*
 powershellが必要
 
 open_webpage.open({str})                                 *open_webpage.open()*
-    neovim内でページを閲覧する 引数にはURLの"https://"を除いた部分を与える
+    ウェブページを閲覧する
+    {str} はURLの"https?://"を除いた部分
     パスを元にファイルタイプをセットする
     https://example.com を閲覧するには
 >lua
@@ -143,12 +151,12 @@ install_table({pkgs})            *package_manager.directory().install_table()*
     テーブルのキーが `install()` の {name} として使用される
     例
 >lua
-    local p = package_manager.directory("/packages/directory")
-    p.install_table({
-        { repo = "stg73/lua-modules", branch = "main" },
-        hoge = { repo = "https://example.com/hoge.git", tag = "v0.0.1" },
-        fuga = "https://example.com/fuga.git",
-    })
+        local p = package_manager.directory("/packages/directory")
+        p.install_table({
+            { repo = "stg73/lua-modules", branch = "main" },
+            hoge = { repo = "https://example.com/hoge.git", tag = "v0.0.1" },
+            fuga = "https://example.com/fuga.git",
+        })
 <
 
 is_installed({pkg})               *package_manager.directory().is_installed()*
@@ -215,9 +223,10 @@ regex.concat({pattern})({str})                                *regex.concat()*
 
 regex.sub({sub})({pattern})({str})                               *regex.sub()*
     |string.gsub()| の |vim.regex| 版
+    非推奨
 
     |regex.gsub()| と違い |substitute()| が使われていない
-    いろいろ微妙
+    非推奨な理由
         |regex.gsub()| より遅い
         |regex.gsub()| と違い"\1"系が使えない
         マッチした部分を削除して再帰しているため ".@<=."のように後読みする場合
@@ -237,7 +246,7 @@ romaji.romaji                                                  *romaji.romaji*
 
     ローマ字を平仮名に変換する関数は
 >lua
-        regex.gsub(tbl.fn(character_table.Romaji_Hiragana))(romaji.romaji)
+    regex.gsub(tbl.fn(character_table.Romaji_Hiragana))(romaji.romaji)
 <
 
 romaji.romaji_rennzoku                                *romaji.romaji_rennzoku*
@@ -247,7 +256,7 @@ romaji.kana                                                      *romaji.kana*
     平仮名のパターン
 
 ==============================================================================
-SKK辞書を編集するコマンド                                *lua-lib-skk_commands*
+SKK辞書を編集する                                       *lua-lib-skk_commands*
 
 SKKを編集するためのコマンド
 `vim.api.nvim_create_user_command` の引数として与える関数を提供する
@@ -371,7 +380,7 @@ tbl.pipe({tbl})                                                   *tbl.pipe()*
     シェルのパイプのように関数の返り値を繋いでいく
 
 ==============================================================================
-マッピングを取得する                                  *lua-lib-vim_keymap_get*
+キーマップを取得する                                  *lua-lib-vim_keymap_get*
 
 `vim.keymap.get` に相当する関数を提供する
 
@@ -380,7 +389,7 @@ vim_keymap_get.get({mode},{lhs})                        *vim_keymap_get.get()*
     {mode} が空文字列の場合 すべてのモードのマッピングから一つ取得する
 >lua
     -- vim.keymap に機能を追加
-    vim.keymap.get = require("vim_keymap_get").get
+    vim.keymap.get = vim_keymap_get.get
 <
 
 vim_keymap_get.get_string({mode},{lhs})          *vim_keymap_get.get_string()*
