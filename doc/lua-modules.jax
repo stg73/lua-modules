@@ -7,6 +7,12 @@
 Type |gO| to see the table of contents.
 
 ==============================================================================
+導入                                                       *lua-modules-intro*
+
+neovim用のluaモジュール群
+|vim_keymap_get.get()| 以外の全ての関数はカリー化されている
+
+==============================================================================
 文字列と文字列の対応                                 *lua-lib-character_table*
 
 半角と全角、ローマ字と平仮名、など文字列の対応を集めたもの
@@ -152,16 +158,16 @@ load_table({opts})                 *package_manager.directory().load_table()*
     テーブルのキーが `load_opt()` の {name} として使用される
     例
 >lua
-    p = package_manager.directory("c:/users/user/package")
-    p.load_table({
-        ["vimdoc-ja"] = { event = "CmdLineEnter" },
-        ["jumpcursor.vim"] = {
-            nmap = "<Plug>(jumpcursor-jump)",
-            setup = function()
-                vim.keymap.set('n','<leader>j','<Plug>(jumpcursor-jump)')
-            end,
-        },
-    })
+        p = package_manager.directory("c:/users/user/package")
+        p.load_table({
+            ["vimdoc-ja"] = { event = "CmdLineEnter" },
+            ["jumpcursor.vim"] = {
+                nmap = "<Plug>(jumpcursor-jump)",
+                setup = function()
+                    vim.keymap.set('n','<leader>j','<Plug>(jumpcursor-jump)')
+                end,
+            },
+        })
 <
 
 available_packages            *package_manager.directory().available_packages*

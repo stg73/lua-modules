@@ -16,6 +16,7 @@ lua-lib-string_utils	lua-modules.jax	/*lua-lib-string_utils*
 lua-lib-tbl	lua-modules.jax	/*lua-lib-tbl*
 lua-lib-vim_keymap_get	lua-modules.jax	/*lua-lib-vim_keymap_get*
 lua-modules	lua-modules.jax	/*lua-modules*
+lua-modules-intro	lua-modules.jax	/*lua-modules-intro*
 lua-modules.jax	lua-modules.jax	/*lua-modules.jax*
 open_github.get_url.tbl()	lua-modules.jax	/*open_github.get_url.tbl()*
 open_github.get_url.url()	lua-modules.jax	/*open_github.get_url.url()*
