@@ -18,9 +18,8 @@ function M.access(url)
         vim.b.URL = url -- URLが後から分かるように
     else
         local stderr = str.remove.hoge(str.remove.ansi_escape_code(job.stderr)) -- 変な改行とエスケープシーケンスを除去
-        local err_msg = require("regex").gsub("pwsh")("^Invoke-WebRequest")(stderr)
         vim.fn.feedkeys(":","nx") -- エラー出力の上部に前のメッセージが表示されぬよう
-        error(err_msg)
+        error(stderr)
     end
 end
 
