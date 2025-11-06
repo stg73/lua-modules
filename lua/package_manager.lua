@@ -135,9 +135,8 @@ function M.directory(d)
             vim.keymap.set(mode,map,function()
                 vim.keymap.del(mode,map)
                 load()
-                local map = vim.api.nvim_replace_termcodes(map,true,false,true)
-                vim.fn.feedkeys(map)
-            end)
+                return map
+            end,{ expr = true })
         end
 
         if opt.event then
