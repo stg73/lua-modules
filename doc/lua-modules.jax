@@ -364,7 +364,7 @@ string_utils.get.original_name_of_backup_file({path})
                 })
             end
         }
-    }
+    })
 <
 
 string_utils.get.path_of_url({url})           *string_utils.get.path_of_url()*
