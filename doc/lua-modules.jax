@@ -18,6 +18,28 @@ neovim用のluaモジュール群
 半角と全角、ローマ字と平仮名、など文字列の対応を集めたもの
 例えば `{{"あ","ア"},{"い","イ"}}` のようなもの
 
+character_table.Seionn_Dakuonn                  *character_table.Seionn_Dakuonn*
+    清音と濁音
+
+character_table.Itijuusenn_Nijuusenn      *character_table.Itijuusenn_Nijuusenn*
+    罫線素片の一重線と二重線
+
+character_table.Hannkaku_Zennkaku            *character_table.Hannkaku_Zennkaku*
+    半角と全角
+
+character_table.Romaji_Hiragana                *character_table.Romaji_Hiragana*
+    ローマ字と平仮名
+
+character_table.Hososenn_Hutosenn            *character_table.Hososenn_Hutosenn*
+    罫線素片の細線と太線
+
+character_table.Kadokaku_Kadomaru            *character_table.Kadokaku_Kadomaru*
+    罫線素片の鉤括弧のようなものと角丸
+    "Kadokaku"は造語
+
+character_table.Hiragana_Katakana            *character_table.Hiragana_Katakana*
+    平仮名と片仮名
+
 ==============================================================================
 カスタムURLスキームを作る                           *lua-lib-create_urlscheme*
 
@@ -254,10 +276,8 @@ regex.concat({pattern})({str})                                *regex.concat()*
 
 regex.sub({sub})({pattern})({str})                               *regex.sub()*
     |string.gsub()| の |vim.regex| 版
-    非推奨
-
     |regex.gsub()| と違い |substitute()| が使われていない
-    非推奨な理由
+    非推奨
         |regex.gsub()| より遅い
         |regex.gsub()| と違い"\1"系が使えない
         マッチした部分を削除して再帰しているため ".@<=."のように後読みする場合

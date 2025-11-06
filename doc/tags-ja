@@ -1,3 +1,10 @@
+character_table.Hannkaku_Zennkaku	lua-modules.jax	/*character_table.Hannkaku_Zennkaku*
+character_table.Hiragana_Katakana	lua-modules.jax	/*character_table.Hiragana_Katakana*
+character_table.Hososenn_Hutosenn	lua-modules.jax	/*character_table.Hososenn_Hutosenn*
+character_table.Itijuusenn_Nijuusenn	lua-modules.jax	/*character_table.Itijuusenn_Nijuusenn*
+character_table.Kadokaku_Kadomaru	lua-modules.jax	/*character_table.Kadokaku_Kadomaru*
+character_table.Romaji_Hiragana	lua-modules.jax	/*character_table.Romaji_Hiragana*
+character_table.Seionn_Dakuonn	lua-modules.jax	/*character_table.Seionn_Dakuonn*
 create_substitute_command.create()	lua-modules.jax	/*create_substitute_command.create()*
 create_urlscheme.add()	lua-modules.jax	/*create_urlscheme.add()*
 create_urlscheme.init()	lua-modules.jax	/*create_urlscheme.init()*
