@@ -415,13 +415,35 @@ tbl.pipe({tbl})                                                   *tbl.pipe()*
 
 `vim.keymap.get` に相当する関数を提供する
 
-vim_keymap_get.get({mode},{lhs})                        *vim_keymap_get.get()*
+vim_keymap_get.get({mode},{lhs},{opts})                 *vim_keymap_get.get()*
     {mode} における {lhs} のマッピングを取得                *vim.keymap.get()*
-    {mode} が空文字列の場合 すべてのモードのマッピングから一つ取得する
+
+    例:
 >lua
-    -- vim.keymap に機能を追加
-    vim.keymap.get = vim_keymap_get.get
+        -- vim.keymap に機能を追加
+        vim.keymap.get = vim_keymap_get.get
+
+        vim.keymap.get("n","%")
+        -- "<Plug>(MatchitNormalForward)"
+
+        -- 再帰的に取得
+        vim.keymap.get("n","%",{ remap = true })
+        -- ":<C-U>call matchit#Match_wrapper('',1,'n')<CR>"
 <
+    引数: ~
+      • {mode}  (`string`) モード
+                |nvim_set_keymap()| を参照
+      • {lhs}   (`string`) マッピングの左辺 |{lhs}|
+      • {opts}  (`table?`) オプションのテーブル
+                • {remap}? (`boolean`, 既定値: `false`) 再帰的にキーマップを取得す
+                  る
+
+    返り値: ~
+        (`string|function`) マッピングの右辺 |{rhs}|
+        マッピングが存在しない場合は `nil` を返す
+
+    参照: ~
+      • |nvim_get_keymap()|
 
 vim_keymap_get.get_string({mode},{lhs})          *vim_keymap_get.get_string()*
     上の関数と機能はほぼ同じだが 関数のマッピングには使えない
