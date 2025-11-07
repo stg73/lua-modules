@@ -21,7 +21,7 @@ function M.get(mode,lhs,opts)
 
     local rhs = mapping.rhs or mapping.callback
 
-    if opts.remap and (mapping.noremap == 0 or r.has("^/V/c<plug>")(rhs)) then -- remap オプションが指定されており実際にリマップされている場合
+    if opts.remap and (mapping.noremap == 0 or r.has("^/V/c<plug>")(mapping.rhs or "")) then -- remap オプションが指定されており実際にリマップされている場合
         return M.get(mode,rhs,opts)
     end
 
