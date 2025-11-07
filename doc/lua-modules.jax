@@ -10,7 +10,7 @@ Type |gO| to see the table of contents.
 導入                                                       *lua-modules-intro*
 
 neovim用のluaモジュール群
-|vim_keymap_get.get()| 以外の全ての関数はカリー化されている
+|get_keymap.get()| 以外の全ての関数はカリー化されている
 
 ==============================================================================
 文字列と文字列の対応                                 *lua-lib-character_table*
@@ -41,14 +41,14 @@ character_table.Hiragana_Katakana          *character_table.Hiragana_Katakana*
     平仮名と片仮名
 
 ==============================================================================
-カスタムURLスキームを作る                           *lua-lib-create_urlscheme*
+カスタムURLスキームを作る                          *lua-lib-custom_url_scheme*
 
 カスタムURLスキームを作ってneovim内で使えるようにする
 `init()` でスキームを扱うautocmdを作り `add()` でスキームの定義をする
 例:
 >lua
-    create_urlscheme.init()
-    create_urlscheme.add({
+    custom_url_scheme.init()
+    custom_url_scheme.add({
         https = open_webpage.open,
         http = open_webpage.open,
         github = open_github.open,
@@ -60,28 +60,27 @@ character_table.Hiragana_Katakana          *character_table.Hiragana_Katakana*
 <
     が実行され https://example.com が閲覧できる
 
-create_urlscheme.schemes                          *create_urlscheme.schemes()*
+custom_url_scheme.schemes                        *custom_url_scheme.schemes()*
     スキームの定義
 
-create_urlscheme.init()                              *create_urlscheme.init()*
+custom_url_scheme.init()                            *custom_url_scheme.init()*
     オートコマンドの作成
 
-create_urlscheme.add({tbl})                           *create_urlscheme.add()*
+custom_url_scheme.add({tbl})                         *custom_url_scheme.add()*
     スキームと実行する関数を設定する
 
     引数: ~
       • {tbl}  (`table`) キーがスキーム 値が実行される関数
 
 ==============================================================================
-文字を置換するコマンドを作る               *lua-lib-create_substitute_command*
+文字を置換するコマンドを作る                      *lua-lib-substitute_command*
 
-create_substitute_command.create({name})({tbl})
-                                          *create_substitute_command.create()*
+substitute_command.create({name})({tbl})         *substitute_command.create()*
 
     character_table を使って文字列を置換するユーザコマンドを作る
     例:
 >lua
-        local s = require("create_substitute_command")
+        local s = require("substitute_command")
         local c = require("character_table")
 
         s.create("Katakana")(c.Hiragana_Katakana)
@@ -463,17 +462,17 @@ romaji.kana                                                      *romaji.kana*
     平仮名のパターン
 
 ==============================================================================
-SKK辞書を編集する                                       *lua-lib-skk_commands*
+SKK辞書を編集する                                        *lua-lib-skk_command*
 
 SKKを編集するためのコマンド
 `vim.api.nvim_create_user_command` の引数として与える関数を提供する
 
-skk_commands.annotate({opts})                         *skk_commands.annotate()*
+skk_command.annotate({opts})                          *skk_command.annotate()*
     任意の範囲に分類注釈を追加するコマンド
     例:
 >lua
         vim.api.nvim_create_user_command("SkkAnnotate",
-        skk_commands.annotate,
+        skk_command.annotate,
         {bar = true,range = "%"})
 <
 
@@ -706,17 +705,17 @@ tbl.pipe({tbl})                                                   *tbl.pipe()*
         (`any`) {tbl} の最後の関数の返り値
 
 ==============================================================================
-キーマップを取得する                                  *lua-lib-vim_keymap_get*
+キーマップを取得する                                      *lua-lib-get_keymap*
 
 `vim.keymap.get` に相当する関数を提供する
 
-vim_keymap_get.get({mode},{lhs},{opts})                 *vim_keymap_get.get()*
+get_keymap.get({mode},{lhs},{opts})                         *get_keymap.get()*
     {mode} における {lhs} のマッピングを取得                *vim.keymap.get()*
 
     例:
 >lua
         -- vim.keymap に機能を追加
-        vim.keymap.get = vim_keymap_get.get
+        vim.keymap.get = get_keymap.get
 
         vim.keymap.get("n","%")
         -- "<Plug>(MatchitNormalForward)"
