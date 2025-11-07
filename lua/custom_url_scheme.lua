@@ -5,7 +5,7 @@ local t = require("tbl")
 
 function M.init()
     vim.api.nvim_create_autocmd("BufReadCmd",{
-        group = vim.api.nvim_create_augroup('create_urlscheme',{}),
+        group = vim.api.nvim_create_augroup('custom_url_scheme',{}),
         pattern = "*://*",
         callback = function(opts)
             local scheme,rest = string.match(opts.match,"(.+)://(.+)")
