@@ -91,7 +91,7 @@ substitute_command.create({name})({tbl})         *substitute_command.create()*
 
     引数: ~
       • {name}  (`string`) 作るコマンドの名前
-      • {tbl}   (`string[][]`) `character_table` の形式
+      • {tbl}   (`string[][]`) |lua-lib-character_table| の形式
 
 ==============================================================================
 githubのファイルを閲覧                                   *lua-lib-open_github*
@@ -116,7 +116,7 @@ open_github.get_url.tbl({tbl})                     *open_github.get_url.tbl()*
                • {file} (`string`) ファイルパス
 
     返り値: ~
-        (`string`) |open_webpage.open| に渡す文字列
+        (`string`) |open_webpage.open()| に渡す文字列
 
 open_github.get_url.str({str})                     *open_github.get_url.url()*
     {str} のBNF
@@ -140,7 +140,7 @@ open_github.get_url.str({str})                     *open_github.get_url.url()*
       • {str}  (`string`) URLっぽい文字列
 
     返り値: ~
-        (`string`) |open_webpage.open| に渡す文字列
+        (`string`) |open_webpage.open()| に渡す文字列
 
 open_github.open({tbl_or_str})                            *open_github.open()*
     引数がテーブルであれば |open_github.get_url.tbl()| 文字列であれば
@@ -303,7 +303,7 @@ regex.find({pattern})({str})                                    *regex.find()*
       • {pattern}  (`string`)
       • {str}      (`string`)
 
-    返り値 (多値): ~
+    返り値 (複数): ~
         (`integer?`) 開始
         (`integer?`) 終端
 
@@ -399,7 +399,7 @@ regex.gmatch({pattern})({str})                                *regex.gmatch()*
       • {str}      (`string`) 文字列
 
     返り値: ~
-        (`string[]`)
+        (`string[]`) {str} を分解したテーブル
 
 regex.split({delimiter})({str})                                  *regex.split()*
     文字列を特定の文字で分割する
@@ -607,7 +607,7 @@ tbl.curry2({fn})                                                *tbl.curry2()*
 <
 
     引数: ~
-      • {fn}  (`function`)
+      • {fn}  (`function`) 2変数関数
 
     返り値: ~
         (`function`) カリー化された関数
@@ -616,7 +616,7 @@ tbl.curry3({fn})                                                *tbl.curry3()*
     3変数関数をカリー化する
 
     引数: ~
-      • {fn}  (`function`)
+      • {fn}  (`function`) 3変数関数
 
     返り値: ~
         (`function`) カリー化された関数
@@ -625,7 +625,7 @@ tbl.curry4({fn})                                                *tbl.curry4()*
     4変数関数をカリー化する
 
     引数: ~
-      • {fn}  (`function`)
+      • {fn}  (`function`) 4変数関数
 
     返り値: ~
         (`function`) カリー化された関数
@@ -634,8 +634,8 @@ tbl.filter({pre})({tbl})                                        *tbl.filter()*
     {pre} を条件として {tbl} をフィルターする
 
     引数: ~
-      • {pre}  (`function`)
-      • {tbl}  (`any[]`)
+      • {pre}  (`function`) 条件
+      • {tbl}  (`any[]`) フィルター対象
 
     返り値: ~
         (`any[]`) フィルターされたテーブル
@@ -660,9 +660,17 @@ tbl.fold({fn})({tbl})                                             *tbl.fold()*
         (`any`)
 
 tbl.get({key})({tbl})                                              *tbl.get()*
+    {key} を {tbl} から取得する
 >lua
     tbl.get(x)(tbl) == tbl[x]
 <
+
+    引数: ~
+      • {key}  (`string|number`) {tbl} のキー
+      • {tbl}  (`table`)
+
+    返り値: ~
+        (`any?`)
 
 tbl.map({fn})({tbl})                                               *tbl.map()*
     map
@@ -672,15 +680,15 @@ tbl.map({fn})({tbl})                                               *tbl.map()*
       • {tbl}  (`any[]`) 引数のテーブル
 
     返り値: ~
-        (`any`)
+        (`any[]`)
 
 tbl.map_reverse({fn_tbl})({x})                             *tbl.map_reverse()*
 >lua
     tbl.map_reverse(tbl)(x) == tbl.map(function(fn) return fn(x) end)(tbl)
 <
     引数: ~
-      • {fn_tbl}  (`function[]`)
-      • {x}       (`any`)
+      • {fn_tbl}  (`function[]`) 1変数関数のテーブル
+      • {x}       (`any`) 引数
 
     返り値: ~
         (`any[]`)
@@ -699,7 +707,7 @@ tbl.pipe({tbl})                                                   *tbl.pipe()*
     シェルのパイプのように関数の返り値を繋いでいく
 
     引数: ~
-      • {tbl}  (`any[]`)
+      • {tbl}  (`any[]`) 最初に元にする値 それ以降は関数
 
     返り値: ~
         (`any`) {tbl} の最後の関数の返り値
@@ -735,7 +743,8 @@ get_keymap.get({mode},{lhs},{opts})                         *get_keymap.get()*
                   |:map-<expr>| のマッピングのみに制限する
 
     返り値: ~
-        (`string|function?`) マッピングの右辺 |{rhs}| を参照
+        (`string|function?`) マッピングの右辺
+                           |{rhs}| を参照
 
     参照: ~
       • |nvim_get_keymap()|
