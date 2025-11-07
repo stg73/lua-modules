@@ -58,6 +58,7 @@ romaji.romaji_rennzoku	lua-modules.jax	/*romaji.romaji_rennzoku*
 skk.hennkann	lua-modules.jax	/*skk.hennkann*
 skk.hennkann.fn.buf()	lua-modules.jax	/*skk.hennkann.fn.buf()*
 skk.hennkann.fn.buf_reverse()	lua-modules.jax	/*skk.hennkann.fn.buf_reverse()*
+skk.parse	lua-modules.jax	/*skk.parse*
 skk.parse.line()	lua-modules.jax	/*skk.parse.line()*
 skk_commands.annotate()	lua-modules.jax	/*skk_commands.annotate()*
 string_utils.get	lua-modules.jax	/*string_utils.get*

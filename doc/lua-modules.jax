@@ -474,6 +474,9 @@ SKKを解析する                                                    *lua-lib-s
 
 構文解析したり バッファからSKKを読み込んで変換をしたりする
 
+------------------------------------------------------------------------------
+SKKを構文解析する                                                  *skk.parse*
+
 skk.parse.line({str})                                       *skk.parse.line()*
     一行のSKKを構文解析する
 
@@ -483,8 +486,8 @@ skk.parse.line({str})                                       *skk.parse.line()*
     返り値: ~
         (`table`) 構文解析した結果
 
-skk.hennkann                                                    *skk.hennkann*
-    SKK辞書を使い文字列の変換をする
+------------------------------------------------------------------------------
+SKK辞書を使い文字列の変換をする                                 *skk.hennkann*
 
 skk.hennkann.fn.buf({buf})({midasi})                   *skk.hennkann.fn.buf()*
     {buf} のバッファからSKKを読み込んで {midasi} を変換する
@@ -513,8 +516,8 @@ skk.hennkann.fn.buf_reverse({buf})({kouho})    *skk.hennkann.fn.buf_reverse()*
 
 文字列を操作するためのユーティリティ
 
-string_utils.get                                            *string_utils.get*
-文字列からなんらかの要素を取得する
+------------------------------------------------------------------------------
+文字列からなんらかの要素を取得する                          *string_utils.get*
 
 string_utils.get.original_name_of_backup_file({path})
                              *string_utils.get.original_name_of_backup_file()*
@@ -550,8 +553,8 @@ string_utils.get.path_of_url({url})           *string_utils.get.path_of_url()*
     返り値: ~
         (`string`) パス
 
-string_utils.remove                                      *string_utils.remove*
-文字列を削除する
+------------------------------------------------------------------------------
+文字列を削除する                                         *string_utils.remove*
 
 string_utils.remove.ansi_escape_code({str})
                                       *string_utils.remove.ansi_escape_code()*
