@@ -80,4 +80,3 @@ tbl.match()	lua-modules.jax	/*tbl.match()*
 tbl.pipe()	lua-modules.jax	/*tbl.pipe()*
 vim.keymap.get()	lua-modules.jax	/*vim.keymap.get()*
 vim_keymap_get.get()	lua-modules.jax	/*vim_keymap_get.get()*
-vim_keymap_get.get_string()	lua-modules.jax	/*vim_keymap_get.get_string()*

@@ -727,16 +727,5 @@ vim_keymap_get.get({mode},{lhs},{opts})                 *vim_keymap_get.get()*
     参照: ~
       • |nvim_get_keymap()|
 
-vim_keymap_get.get_string({mode},{lhs})          *vim_keymap_get.get_string()*
-    上の関数と機能はほぼ同じだが 関数のマッピングには使えない
-    上は |nvim_get_keymap| を使っているのに対し こちらは |:map| を使っている
-
-    引数: ~
-      • {mode}  (`string`) モード |nvim_set_keymap()| を参照
-      • {lhs}   (`string`) マッピングの左辺 |{lhs}| を参照
-
-    返り値: ~
-        (`string?`) マッピングの右辺 |{rhs}| を参照
-
 ------------------------------------------------------------------------------
  vi:tw=78:ts=4:ft=help:norl:et
