@@ -718,6 +718,8 @@ vim_keymap_get.get({mode},{lhs},{opts})                 *vim_keymap_get.get()*
       • {opts}  (`table?`) オプションのテーブル
                 • {remap}? (`boolean`, 既定値: `false`) 再帰的にキーマップを取得
                   する
+                • {expr}? (`boolean`, 既定値: `false`) 真の場合は
+                  |:map-<expr>| のマッピングのみに制限する
 
     返り値: ~
         (`string|function?`) マッピングの右辺 |{rhs}| を参照
