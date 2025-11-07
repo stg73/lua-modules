@@ -141,13 +141,7 @@ function M.directory(d)
 
         if opt.event then
             vim.api.nvim_create_autocmd(opt.event,{
-                callback = load,
-                once = true,
-            })
-        end
-        if opt.filetype then
-            vim.api.nvim_create_autocmd("FileType",{
-                pattern = opt.filetype,
+                pattern = opt.pattern,
                 callback = load,
                 once = true,
             })

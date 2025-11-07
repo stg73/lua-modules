@@ -203,7 +203,8 @@ load_opt({opt})({name})               *package_manager.directory().load_opt()*
     引数: ~
       • {opt}  (`table`) オプション
                • {event}? (`string`) そのイベントがトリガーされたとき
-               • {filetype}? (`string`) そのファイルタイプがセットされたとき
+               • {pattern}? (`string`) {event} と併用する
+                 オートコマンドのパターン
                • {[nticvo]map}? (`string`) そのキーが押されたとき
                • {now}? (`string`) 真の場合 すぐに読み込む
 
