@@ -136,7 +136,7 @@ function M.directory(d)
                 vim.keymap.del(mode,map)
                 load()
                 return map
-            end,{ expr = true })
+            end,{ expr = true, desc = "load " .. name })
         end
 
         if opt.event then
@@ -144,6 +144,7 @@ function M.directory(d)
                 pattern = opt.pattern,
                 callback = load,
                 once = true,
+                desc = "load " .. name,
             })
         end
         if opt.nmap then
