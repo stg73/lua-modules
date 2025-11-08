@@ -13,7 +13,8 @@ function M.init()
                 vim.cmd.buffer("#") vim.cmd.bwipeout(opts.buf) -- ウィンドウを消さずにバッファを削除
                 M.schemes[scheme](rest)
             end
-        end
+        end,
+        desc = "custom URL scheme",
     })
 end
 
