@@ -195,7 +195,12 @@ end
 
 function M.equal_to_any_element(cond) return function(x)
     local function f(y) return y == x end
-    return M.first_map_filter(f)(f)(cond)
+    local match =  M.match(f)(cond)
+    if match then
+        return true
+    else
+        return false
+    end
 end end
 
 return M
