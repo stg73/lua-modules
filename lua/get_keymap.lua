@@ -23,6 +23,10 @@ function M.get(mode,lhs,opts)
         return nil
     end
 
+    if opts.desc then
+        return mapping.desc
+    end
+
     return rhs
 end
 

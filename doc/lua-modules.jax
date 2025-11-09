@@ -742,6 +742,9 @@ get_keymap.get({mode},{lhs},{opts})                         *get_keymap.get()*
                   する
                 • {expr}? (`boolean`, 既定値: `false`) 真の場合は
                   |:map-<expr>| のマッピングのみに制限する
+                • {desc}? (`boolean`, 既定値: `false`) 真の場合は
+                  キーマップではなく そのdescを取得する
+                  参照: |nvim_set_keymap()|
 
     返り値: ~
         (`string|function?`) マッピングの右辺
