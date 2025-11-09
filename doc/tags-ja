@@ -42,6 +42,7 @@ package_manager.directory().uninstall()	lua-modules.jax	/*package_manager.direct
 package_manager.directory().update()	lua-modules.jax	/*package_manager.directory().update()*
 regex.concat()	lua-modules.jax	/*regex.concat()*
 regex.convert()	lua-modules.jax	/*regex.convert()*
+regex.escape()	lua-modules.jax	/*regex.escape()*
 regex.filter()	lua-modules.jax	/*regex.filter()*
 regex.find()	lua-modules.jax	/*regex.find()*
 regex.gmatch()	lua-modules.jax	/*regex.gmatch()*

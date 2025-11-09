@@ -7,6 +7,11 @@ function M.convert(str)
     return regex
 end
 
+function M.escape(str)
+    local escaped = string.gsub(str,"/","//")
+    return escaped
+end
+
 -- vim.regexのラッパー
 -- string.findのvim.regex版
 -- string.subで使いやすいようにインデックスも変更

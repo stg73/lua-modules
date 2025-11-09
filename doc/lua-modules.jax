@@ -295,6 +295,15 @@ regex.convert({str})                                         *regex.convert()*
     返り値: ~
         (`string`) vimの正規表現
 
+regex.escape({str})                                           *regex.escape()*
+    スラッシュをエスケープ文字として扱わないようにエスケープする
+
+    引数: ~
+      • {str}  (`string`)
+
+    返り値: ~
+        (`string`) エスケープされた文字列
+
 regex.find({pattern})({str})                                    *regex.find()*
     |vim.regex| のラッパー
     |string.find()| の |vim.regex| 版
