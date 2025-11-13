@@ -14,13 +14,11 @@ local function hoge(str)
     end
 end
 
-M.get_url = {}
-
-function M.get_url.tbl(tbl)
+function M.get_from_table(tbl)
     return "github.com/" .. tbl.repo .. "/raw/" .. hoge(tbl.commit) .. "/" .. tbl.file
 end
 
-function M.get_url.url(str)
+function M.get_from_string(str)
     local repo = r.match(".{-}//.{-}//")(str)
     local x = r.remove("^.{-}//.{-}//")(str)
     return "github.com/" .. repo .. "raw/" .. hoge(x)
@@ -29,9 +27,9 @@ end
 function M.open(str_or_tbl)
     local url = (function()
         if type(str_or_tbl) == "table" then
-            return M.get_url.tbl(str_or_tbl)
+            return M.get_from_table(str_or_tbl)
         else
-            return M.get_url.url(str_or_tbl)
+            return M.get_from_string(str_or_tbl)
         end
     end)()
     require("open_webpage").open(url)

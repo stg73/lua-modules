@@ -98,11 +98,11 @@ githubのファイルを閲覧                                   *lua-lib-open_g
 
 githubからファイルをダウンロードして閲覧する open_webpageのラッパー
 
-open_github.get_url.tbl({tbl})                     *open_github.get_url.tbl()*
+open_github.get_from_table({tbl})               *open_github.get_from_table()*
     テーブルを渡す
     例:
 >lua
-        open_github.get_url.tbl({
+        open_github.get_from_table({
             repo = "stg73/lua-modules",
             commit = "main",
             file = "readme.txt"
@@ -118,7 +118,7 @@ open_github.get_url.tbl({tbl})                     *open_github.get_url.tbl()*
     返り値: ~
         (`string`) |open_webpage.open()| に渡す文字列
 
-open_github.get_url.str({str})                     *open_github.get_url.url()*
+open_github.get_url.str({str})                 *open_github.get_from_string()*
     {str} のBNF
 >
         <str> ::= <repo> "\" <commit> path | <repo> path
@@ -132,7 +132,7 @@ open_github.get_url.str({str})                     *open_github.get_url.url()*
         "neovim/neovim/\cb80d390/README.md"
         "neovim/neovim/README.md"
 >lua
-        open_github.get_url.url("stg73/lua-modules/\\bmain/readme.txt")
+        open_github.get_from_string("stg73/lua-modules/\\bmain/readme.txt")
         -- "github.com/stg73/lua-modules/raw/refs/heads/main/readme.txt"
 <
 
@@ -143,8 +143,9 @@ open_github.get_url.str({str})                     *open_github.get_url.url()*
         (`string`) |open_webpage.open()| に渡す文字列
 
 open_github.open({tbl_or_str})                            *open_github.open()*
-    引数がテーブルであれば |open_github.get_url.tbl()| 文字列であれば
-    |open_github.get_url.url()| に渡し 返り値を |open_webpage.open()| に渡す
+    引数がテーブルであれば |open_github.get_from_table()|
+    文字列であれば |open_github.get_from_string()| に渡し
+    返り値を |open_webpage.open()| に渡す
     成功すると `b:github` にgithubのウェブUIで見る用のURLを代入する
 >lua
         open_github.open("stg73/lua-modules/doc/lua-modules.jax")
