@@ -45,6 +45,7 @@ character_table.Hiragana_Katakana          *character_table.Hiragana_Katakana*
 
 カスタムURLスキームを作ってneovim内で使えるようにする
 `init()` でスキームを扱うautocmdを作り `add()` でスキームの定義をする
+
 例:
 >lua
     custom_url_scheme.init()
@@ -100,6 +101,7 @@ githubからファイルをダウンロードして閲覧する open_webpageの�
 
 open_github.get_from_table({tbl})               *open_github.get_from_table()*
     テーブルを渡す
+
     例:
 >lua
         open_github.get_from_table({
@@ -127,10 +129,12 @@ open_github.get_url.str({str})                 *open_github.get_from_string()*
 <
     ブランチ コミットID タグ が指定できる
     例:
+>
         "neovim/neovim/\bmaster/README.md"
         "neovim/neovim/\tv0.11.5/README.md"
         "neovim/neovim/\cb80d390/README.md"
         "neovim/neovim/README.md"
+<
 >lua
         open_github.get_from_string("stg73/lua-modules/\\bmain/readme.txt")
         -- "github.com/stg73/lua-modules/raw/refs/heads/main/readme.txt"
@@ -148,7 +152,10 @@ open_github.open({tbl_or_str})                            *open_github.open()*
     返り値を |open_webpage.open()| に渡す
     成功すると `b:github` にgithubのウェブUIで見る用のURLを代入する
 >lua
+        -- このhelpを見る
         open_github.open("stg73/lua-modules/doc/lua-modules.jax")
+        -- webuiで見る
+        vim.ui.open("https://" .. vim.b.github)
 <
 
     引数: ~
@@ -218,6 +225,7 @@ load_opt({opt})({name})               *package_manager.directory().load_opt()*
 load_table({opts})                 *package_manager.directory().load_table()*
     `load_opt()` の {opts} を含むテーブルをとる
     テーブルのキーが `load_opt()` の {name} として使用される
+
     例:
 >lua
         p = package_manager.directory("c:/users/user/package")
@@ -247,6 +255,7 @@ install({name})({pkg})                 *package_manager.directory().install()*
 install_table({pkgs})            *package_manager.directory().install_table()*
     {pkg} を含むテーブルをとる
     テーブルのキーが `install()` の {name} として使用される
+
     例:
 >lua
         local p = package_manager.directory("/packages/directory")
@@ -288,8 +297,13 @@ vimの正規表現を使って文字列を操作する
 バックスラッシュの代わりにスラッシュを使う
 
 regex.convert({str})                                         *regex.convert()*
-    スラッシュを使った正規表現をvimの正規表現に変更
-    以下の関数で使用されている
+    スラッシュを使った正規表現をvimの正規表現に変換
+
+    例:
+>lua
+    regex.convert("/s")
+    -- "\\s"
+<
 
     引数: ~
       • {str}  (`string`)
@@ -299,6 +313,12 @@ regex.convert({str})                                         *regex.convert()*
 
 regex.escape({str})                                           *regex.escape()*
     スラッシュをエスケープ文字として扱わないようにエスケープする
+
+    例:
+>lua
+    regex.escape("/s")
+    -- "//s"
+<
 
     引数: ~
       • {str}  (`string`)
@@ -311,6 +331,13 @@ regex.find({pattern})({str})                                    *regex.find()*
     |string.find()| の |vim.regex| 版
     |string.sub()| で使いやすいようにインデックスも変更
 
+    例:
+>lua
+    regex.find("/d")("a2c")
+    -- 2
+    -- 2
+<
+
     引数: ~
       • {pattern}  (`string`)
       • {str}      (`string`)
@@ -322,6 +349,12 @@ regex.find({pattern})({str})                                    *regex.find()*
 regex.match({pattern})({str})                                  *regex.match()*
     |string.match()| の |vim.regex| 版
 
+    例:
+>lua
+    regex.match("/d")("a2c")
+    -- "2"
+<
+
     引数: ~
       • {pattern}  (`string`) パターン
       • {str}      (`string`) 文字列
@@ -331,6 +364,12 @@ regex.match({pattern})({str})                                  *regex.match()*
 
 regex.has({pattern})({str})                                      *regex.has()*
     パターンが含まれているかどうか
+
+    例:
+>lua
+    regex.has("/d")("a2c")
+    -- true
+<
 
     引数: ~
       • {pattern}  (`string`) パターン
@@ -342,6 +381,12 @@ regex.has({pattern})({str})                                      *regex.has()*
 regex.is({pattern})({str})                                        *regex.is()*
     パターンに完全一致するか
     |regex.has()| のラッパー
+
+    例:
+>lua
+    regex.is("/d")("a2c")
+    -- false
+<
 
     引数: ~
       • {pattern}  (`string`) パターン
@@ -368,6 +413,12 @@ regex.gsub({sub})({pattern})({str})                             *regex.gsub()*
     |substitute()| のラッパー
     {sub} の関数には文字列が渡される
 
+    例:
+>lua
+    regex.gsub(":")("/d")("a2c")
+    -- "a:c"
+<
+
     引数: ~
       • {sub}      (`string|function`) 文字列であればそれで置換する
                    関数であればその返り値で置換する
@@ -380,8 +431,13 @@ regex.gsub({sub})({pattern})({str})                             *regex.gsub()*
 regex.remove({pattern})({str})                                *regex.remove()*
     |regex.gsub()| のラッパー
     {str} から {pattern} を削除する
+
+    例:
 >lua
     regex.remove = regex.gsub("")
+
+    regex.remove("/d")("a2c")
+    -- "ac"
 <
 
     引数: ~
@@ -394,6 +450,12 @@ regex.remove({pattern})({str})                                *regex.remove()*
 regex.filter({cond})({str})                                   *regex.filter()*
     文字か関数で文字列をフィルターする
 
+    例:
+>lua
+    regex.filter("0-9")("a2c")
+    -- "2"
+<
+
     引数: ~
       • {cond}  (`string|function`) フィルターする条件
                 文字列であればそれに一致するかでフィルターする
@@ -405,6 +467,12 @@ regex.filter({cond})({str})                                   *regex.filter()*
 
 regex.gmatch({pattern})({str})                                *regex.gmatch()*
     {str} を {pattern} にマッチする部分に分解する
+
+    例:
+>lua
+    regex.gmatch("[0-9]")("a2c")
+    -- { "2" }
+<
 
     引数: ~
       • {pattern}  (`string`) パターン
@@ -481,6 +549,7 @@ SKKを編集するためのコマンド
 
 skk_command.annotate({opts})                          *skk_command.annotate()*
     任意の範囲に分類注釈を追加するコマンド
+
     例:
 >lua
         vim.api.nvim_create_user_command("SkkAnnotate",
@@ -546,6 +615,7 @@ string_utils.get.original_name_of_backup_file({path})
     拡張子を付け足すタイプのバックアップファイル名から元のファイル名を取得
     "hoge.txt.hoge" -> "hoge.txt"
     "hoge.txt.20251027T124207Z.hoge" -> "hoge.txt"
+
     例: バックアップファイルのファイルタイプをセットする
 >lua
     vim.filetype.add({
