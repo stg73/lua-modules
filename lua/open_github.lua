@@ -1,6 +1,5 @@
 local M = {}
 
-local w = require("open_webpage")
 local r = require("regex")
 
 local function hoge(str)
@@ -28,11 +27,15 @@ function M.get_url.url(str)
 end
 
 function M.open(str_or_tbl)
-    if type(str_or_tbl) == "table" then
-        w.open(M.get_url.tbl(str_or_tbl))
-    else
-        w.open(M.get_url.url(str_or_tbl))
-    end
+    local url = (function()
+        if type(str_or_tbl) == "table" then
+            return M.get_url.tbl(str_or_tbl)
+        else
+            return M.get_url.url(str_or_tbl)
+        end
+    end)()
+    require("open_webpage").open(url)
+    vim.b.github = r.gsub("blob")("raw(//refs//(tags|heads))?")(url) -- ブラウザで確認用
 end
 
 return M
