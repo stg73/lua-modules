@@ -737,6 +737,13 @@ get_keymap.get({mode},{lhs},{opts})                         *get_keymap.get()*
         -- 再帰的に取得
         vim.keymap.get("n","%",{ remap = true }).rhs
         -- ":<C-U>call matchit#Match_wrapper('',1,'n')<CR>"
+
+        -- helpバッファで実行
+            vim.keymap.get("n","gO").desc
+            -- "vim.lsp.buf.document_symbol()"
+
+            vim.keymap.get("n","gO",{ buffer = 0 }).desc
+            -- "Show an Outline of the current buffer"
 <
 
     引数: ~
