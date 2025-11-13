@@ -1,33 +1,26 @@
 local M = {}
 
-local r = require("regex")
-local t = require("tbl")
-
 function M.get(mode,lhs,opts)
-    -- 引数の既定値
     local opts = opts or {}
+    local keymap_table = (function()
+        if opts.buffer then
+            return vim.api.nvim_buf_get_keymap(opts.buffer,mode)
+        else
+            return vim.api.nvim_get_keymap(mode)
+        end
+    end)()
 
-    local mapping = t.match(function(t) return t.lhs == lhs end)(vim.api.nvim_get_keymap(mode))
-
-    if mapping == nil then
+    if keymap_table == nil then
         return nil
     end
 
-    local rhs = mapping.rhs or mapping.callback
+    local keymap = require("tbl").match(function(t) return t.lhs == lhs end)(keymap_table)
 
-    if opts.remap and (mapping.noremap == 0 or r.has("^/V/c<plug>")(mapping.rhs or "")) then -- remap オプションが指定されており実際にリマップされている場合
-        return M.get(mode,rhs,opts)
+    if opts.remap then
+        return M.get(mode,keymap.rhs,{ buffer = opts.buffer })
     end
 
-    if opts.expr and mapping.expr == 0 then
-        return nil
-    end
-
-    if opts.desc then
-        return mapping.desc
-    end
-
-    return rhs
+    return keymap
 end
 
 return M

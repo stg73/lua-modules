@@ -725,42 +725,34 @@ tbl.pipe({tbl})                                                   *tbl.pipe()*
 ==============================================================================
 キーマップを取得する                                      *lua-lib-get_keymap*
 
-`vim.keymap.get` に相当する関数を提供する
-
 get_keymap.get({mode},{lhs},{opts})                         *get_keymap.get()*
     {mode} における {lhs} のマッピングを取得                *vim.keymap.get()*
 
     例:
 >lua
-        -- vim.keymap に機能を追加
-        vim.keymap.get = get_keymap.get
-
-        vim.keymap.get("n","%")
+        vim.keymap.get("n","%").rhs
         -- "<Plug>(MatchitNormalForward)"
 
         -- 再帰的に取得
-        vim.keymap.get("n","%",{ remap = true })
+        vim.keymap.get("n","%",{ remap = true }).rhs
         -- ":<C-U>call matchit#Match_wrapper('',1,'n')<CR>"
 <
 
     引数: ~
-      • {mode}  (`string`) モード |nvim_set_keymap()| を参照
-      • {lhs}   (`string`) マッピングの左辺 |{lhs}| を参照
+      • {mode}  (`string`) モード
+                参照: |nvim_set_keymap()|
+      • {lhs}   (`string`) マッピングの左辺
+                参照: |{lhs}|
       • {opts}  (`table?`) オプションのテーブル
-                • {remap}? (`boolean`, 既定値: `false`) 再帰的にキーマップを取得
-                  する
-                • {expr}? (`boolean`, 既定値: `false`) 真の場合は
-                  |:map-<expr>| のマッピングのみに制限する
-                • {desc}? (`boolean`, 既定値: `false`) 真の場合は
-                  キーマップではなく そのdescを取得する
-                  参照: |nvim_set_keymap()|
+                • {remap}? (`boolean`, 既定: `false`) 再帰的にキーマップを取得
+                  主に |<Plug>| に使う
+                • {buffer}? (`integer`, 既定: `false`) 真なら
+                  バッファローカルなマッピングを取得する
+                  参照: |nvim_buf_get_keymap()|
 
     返り値: ~
-        (`string|function?`) マッピングの右辺
-                           |{rhs}| を参照
-
-    参照: ~
-      • |nvim_get_keymap()|
+        (`table?`) `maparg({lhs},{mode},false,true)` と同じ
+        参照: |maparg()|
 
 ------------------------------------------------------------------------------
  vi:tw=78:ts=4:ft=help:norl:et
