@@ -1,10 +1,8 @@
-*lua-modules.jax*                    Nvim
-                                                                *lua-modules*
+*lua-modules.jax*                                                *lua-modules*
 
-                             LUA REFERENCE MANUAL
+                               lua-modules docs
 
-
-Type |gO| to see the table of contents.
+                                       Type |gO| to see the table of contents.
 
 ==============================================================================
 導入                                                       *lua-modules-intro*
