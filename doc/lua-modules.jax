@@ -195,6 +195,9 @@ open_webpage.open({str})                                 *open_webpage.open()*
 package_manager.directory({dir})                 *package_manager.directory()*
     パッケージを管理するディレクトリを設定する
 
+    引数: ~
+        {dir}  (`string`) ディレクトリのフルパス
+
     返り値: ~
         (`table`) 以下を含むテーブル
 
