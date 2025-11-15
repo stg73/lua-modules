@@ -5,12 +5,10 @@ local str = require("string_utils")
 function M.access(url)
     local temp = vim.fn.tempname()
     local job = vim.system({
-        "pwsh.exe", -- 問題 カレントディレクトリに"pwsh.exe"があるとそちらを実行してしまう
-        "-noprofile",
-        "-command",
-        "invoke-webrequest",
+        "curl",
+        "-L",
         url,
-        "-outfile",
+        "-o",
         temp
     },{}):wait()
     if job.code == 0 then
