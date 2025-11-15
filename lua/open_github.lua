@@ -15,13 +15,13 @@ local function hoge(str)
 end
 
 function M.get_from_table(tbl)
-    return "github.com/" .. tbl.repo .. "/raw/" .. hoge(tbl.commit) .. "/" .. tbl.file
+    return "raw.githubusercontent.com/" .. tbl.repo .. "/raw/" .. hoge(tbl.commit) .. "/" .. tbl.file
 end
 
 function M.get_from_string(str)
     local repo = r.match(".{-}//.{-}//")(str)
     local x = r.remove("^.{-}//.{-}//")(str)
-    return "github.com/" .. repo .. "raw/" .. hoge(x)
+    return "raw.githubusercontent.com/" .. repo .. hoge(x)
 end
 
 function M.open(str_or_tbl)
@@ -33,7 +33,7 @@ function M.open(str_or_tbl)
         end
     end)()
     require("open_webpage").open(url)
-    vim.b.github = r.gsub("blob")("raw(//refs//(tags|heads))?")(url) -- ブラウザで確認用
+    vim.b.github = r.gsub("blob/")("(^([^//]+//){3})@<=")(r.gsub("github.com")("^[^//]+")(vim.b.URL)) -- ブラウザで確認用
 end
 
 return M
