@@ -21,9 +21,7 @@ function M.access(url)
 end
 
 function M.open(url)
-    vim.notify("accessing",vim.log.levels.INFO)
     M.access(url)
-    vim.fn.feedkeys(":","nx") -- メーセージをクリア
     if vim.o.filetype == "" then
         vim.bo.filetype = vim.filetype.match({ filename = str.get.path_of_url(url) or "", buf = 0 }) or "html"
     end
