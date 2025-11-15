@@ -15,9 +15,8 @@ function M.access(url)
         vim.cmd.edit(temp)
         vim.b.URL = url -- URLが後から分かるように
     else
-        local stderr = str.remove.hoge(str.remove.ansi_escape_code(job.stderr)) -- 変な改行とエスケープシーケンスを除去
         vim.fn.feedkeys(":","nx") -- エラー出力の上部に前のメッセージが表示されぬよう
-        error(stderr)
+        error("\n> curl -L " .. url .. " -o " .. temp .. "\n" .. job.stderr)
     end
 end
 
